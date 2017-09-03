@@ -2,13 +2,13 @@
 p {margin: 0}
 
 .header{
-    background-color: #006400;
+    background-color: #222;
     text-align: center;
-    padding: 20px;
+    padding: 0px;
 }
 
 .logo{
-    width: 300px;
+    width: 200px;
 }
 
 .hfont0{
@@ -20,7 +20,7 @@ p {margin: 0}
 .hfont1{
     font-family: Anton, sans-serif;
     color: white;
-    font-size: 100px;
+    font-size: 50px;
     padding: 0;
 }
 
