@@ -1,5 +1,5 @@
 import React from 'react'
-import Board from './Board'
+import GameMap from './GameMap'
 import Header from './Header'
 import Footer from './Footer'
 
@@ -10,7 +10,7 @@ const App = () => {
     return (
       <div className="App">
         <Header />
-        <Board />
+        <GameMap />
         <Footer />
       </div>
     );
