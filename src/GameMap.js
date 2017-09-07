@@ -29,8 +29,9 @@ import sword01 from './img/sword01.png'
 
 
 
-// Init boardArray 01, 02, 03 and 04 (GAMING MAP)
+// GAME MAPS DESIGN (boardArray01[], boardArray02[], boardArray03[], boardArray04[])
 
+//++++++++++++++++++++++++ GAME MAP 01 ++++++++++++++++++++++++
 let boardArray01 = []
 
     for (let i = 0 ; i < 600 ; i++) {
@@ -187,12 +188,12 @@ let boardArray01 = []
     boardArray01[532]=1
     boardArray01[533]=6
     boardArray01[535]=2
+    boardArray01[554]=2
     boardArray01[556]=2
     boardArray01[565]=2
-   
+//
   
-// BoardArray 2
-
+//++++++++++++++++++++++++ GAME MAP 02 ++++++++++++++++++++++++
 let boardArray02 = []
 
     for (let i = 0 ; i < 600 ; i++) {
@@ -312,7 +313,9 @@ let boardArray02 = []
     boardArray02[317]=2
     boardArray02[327]=2
     boardArray02[335]=2
-    boardArray02[339]=2
+    boardArray02[339]=5
+    boardArray02[340]=1
+    boardArray02[341]=1
     boardArray02[343]=2
     boardArray02[347]=2
     boardArray02[354]=3
@@ -320,9 +323,7 @@ let boardArray02 = []
     boardArray02[356]=1
     boardArray02[357]=6
     boardArray02[365]=2
-    boardArray02[369]=5
-    boardArray02[370]=1
-    boardArray02[371]=1
+   
     boardArray02[373]=2
     boardArray02[377]=2
     boardArray02[384]=2
@@ -354,8 +355,9 @@ let boardArray02 = []
     boardArray02[526]=2
     boardArray02[556]=2
 
-//BoardArray 03
+//
 
+//++++++++++++++++++++++++ GAME MAP 03 ++++++++++++++++++++++++
 let boardArray03 = []
 
     for (let i = 0 ; i < 600 ; i++) {
@@ -388,9 +390,216 @@ let boardArray03 = []
       boardArray03[i]=2
       }
 
+      boardArray03[50]=2
+      boardArray03[80]=2
+
+      for (let i = 91; i < 113; i++){
+        boardArray03[i]=1
+      }
+
+      boardArray03[95]=4
+      boardArray03[96]=0
+      boardArray03[110]=6
+      boardArray03[111]=0
+
+      for (let i = 130 ; i < 251; i+=30){
+        boardArray03[i]=2
+      }
+      
+      for (let i = 125 ; i < 306; i+=30){
+        boardArray03[i]=2
+      }
+
+      for (let i = 138 ; i<319 ; i+=30){
+        boardArray03[i]=2
+      }
+
+      boardArray03[101]=0
+
+      boardArray03[228]=0
+
+      for (let i = 235 ; i < 239 ; i++){
+        boardArray03[i]=1
+      }
+
       boardArray03[278]=3
       boardArray03[279]=1
-      boardArray03[280]=4
+      boardArray03[280]=2
+      boardArray03[305]=0
+      boardArray03[308]=2
+      boardArray03[310]=2
+     
+      for (let i = 333 ; i < 338; i++){
+        boardArray03[i]=1
+      }
+
+      boardArray03[338]=6
+      boardArray03[340]=5
+      boardArray03[341]=1
+      boardArray03[342]=1
+      
+      for (let i = 343 ; i < 357 ; i++){
+        boardArray03[i]=1
+      }
+      boardArray03[356]=4
+      boardArray03[365]=2
+      boardArray03[373]=2
+      boardArray03[386]=2
+      boardArray03[395]=2
+      boardArray03[403]=2
+      boardArray03[409]=2
+      boardArray03[416]=2
+      boardArray03[425]=2
+      boardArray03[433]=2
+      boardArray03[439]=2
+      boardArray03[446]=2
+
+      for (let i = 451; i < 454; i++){
+        boardArray03[i]=1
+      }
+
+      boardArray03[455]=2
+      boardArray03[463]=2
+      boardArray03[469]=2
+      boardArray03[476]=2
+      boardArray03[485]=2
+      boardArray03[493]=2
+      boardArray03[499]=2
+      boardArray03[506]=2
+
+      for (let i=512 ; i<515; i++){
+        boardArray03[i]=1
+      }
+
+
+
+      boardArray03[515]=2
+      boardArray03[523]=5
+      boardArray03[524]=1
+      boardArray03[525]=1
+      boardArray03[526]=1
+      boardArray03[527]=1
+      boardArray03[529]=2
+
+      for (let i = 530 ; i < 535 ; i++){
+        boardArray03[i]=1
+      }
+
+      for (let i = 113 ; i <324 ; i+=30){
+        boardArray03[i]=2
+      }
+      boardArray03[113]=4
+
+      boardArray03[536]=2
+      boardArray03[544]=10
+      boardArray03[545]=2
+      boardArray03[559]=2
+//
+
+//++++++++++++++++++++++++ GAME MAP 04 ++++++++++++++++++++++++
+let boardArray04 = []
+
+    for (let i = 0 ; i < 600; i++){
+        boardArray04[i]=0
+    }
+
+    //Corners
+    boardArray04[0]=3
+    boardArray04[29]=4
+    boardArray04[570]=5
+    boardArray04[599]=6
+      
+
+    // Define Exterior Top Horizontal Wall
+    for (let i = 1; i < 29 ; i++){
+      boardArray04[i]=1
+      }
+
+    for (let i = 37; i < 548; i+=30){
+      boardArray04[i]=2
+    }
+
+      // Define Exterior Bottom Horizontal Wall
+      for (let i = 571; i < 599 ; i++){
+      boardArray04[i]=1
+      }
+
+      // Define Exterior Left Vertical Wall
+      for (let i = 30; i < 570; i+=30){
+      boardArray04[i]=2
+      }
+
+      // Define Exterior Right Vertical Wall
+      for (let i = 59; i < 570 ; i+=30){
+        boardArray04[i]=2
+      }
+
+      boardArray04[275]=1
+      boardArray04[276]=1
+
+      for (let i = 34; i < 545; i+=30){
+        boardArray04[i]=2
+      }
+
+      for (let i = 181 ; i < 184; i++){
+        boardArray04[i]=1
+      }
+
+      for (let i = 199 ; i < 410; i+=30){
+        boardArray04[i]=2
+      }
+      boardArray04[154]=0
+
+      boardArray04[169]=3
+
+      for (let i = 170; i < 179; i++){
+        boardArray04[i]=1
+      }
+      
+      boardArray04[184]=4
+
+      boardArray04[244]=0
+      boardArray04[274]=3
+      boardArray04[439]=5
+
+      for (let i = 99; i < 116; i++){
+        boardArray04[i]=1
+      }
+
+      for (let i = 311 ; i<492; i+=30){
+        boardArray04[i]=2
+      }
+
+      for (let i = 315 ; i<596; i+=30){
+        boardArray04[i]=2
+      }
+
+      for (let i = 440; i < 447; i++){
+        boardArray04[i]=1
+      }
+      for (let i = 473; i < 534; i+=30){
+        boardArray04[i]=2
+      }
+
+      for(let i = 277 ; i < 289; i++){
+        boardArray04[i]=1
+      }
+
+      for (let i=133; i < 254; i+=30){
+        boardArray04[i]=2
+      }
+         
+      boardArray04[282]=0
+      boardArray04[283]=5 
+      boardArray04[287]=0
+      boardArray04[288]=0
+      
+      boardArray04[307]=0
+      boardArray04[514]=0
+
+//
+
+
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Set Initial State 
@@ -399,11 +608,11 @@ let boardArray03 = []
 function initialState(boardSize) {
   return(
   {
-    boardstate: boardArray01,
+    boardstate: boardArray04,
     lines: 20,
     cols: 30,
     cells: 600, 
-    heroPos: 207,
+    heroPos: 31,
     dungeon: 1,
     level: 1
   })
@@ -448,10 +657,13 @@ class GameMap extends React.Component {
   }
 
   heroMove = (e) =>{
-    if (e.key === 'ArrowLeft' && this.state.boardstate[this.state.heroPos-1]===10) {
+    if (e.key === 'ArrowRight' && this.state.heroPos === 543 && this.state.boardstate[this.state.heroPos+1]===10) {
+      this.setState({boardstate: boardArray04, heroPos: 31, dungeon:4})
+    }
+    if (e.key === 'ArrowLeft' && this.state.heroPos ===311 && this.state.boardstate[this.state.heroPos-1]===10) {
       this.setState({boardstate: boardArray03, heroPos: 310, dungeon:3})
     }
-    if (e.key === 'ArrowRight' && this.state.boardstate[this.state.heroPos+1]===10) {
+    if (e.key === 'ArrowRight' && this.state.heroPos===208 && this.state.boardstate[this.state.heroPos+1]===10) {
       this.setState({boardstate: boardArray02, heroPos: 180, dungeon:2})
     }
     if (e.key === 'ArrowUp' && this.state.heroPos-30>=0 && (this.state.boardstate[this.state.heroPos-30]===0)) {
@@ -509,6 +721,10 @@ class GameMap extends React.Component {
         <h3 className="h3title">Hero Position: {this.state.heroPos}</h3>
         <h2 className="h2title">Legend</h2>
         <h3 className="h3title"><img className="iconsize" src={portal} alt="portal icon" /> Teleport to Next Dungeon</h3>
+        <h2 className="h2title">Sound Track</h2>
+
+        <iframe src="https://open.spotify.com/embed/track/0placGA69DMyS8NvaFe7Es" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
+
     
       </div>
            
