@@ -38,8 +38,9 @@ import gold from './img/gold.png'
 //  5 - Bottom Left Corner
 //  6 - Bottom Right Corner
 // 10 - Portal Icon
-// 13 - Gold
 // 20 - Necromancer
+// -1 - Gold
+// -2 - Health Bottles
 
 
 
@@ -716,6 +717,7 @@ class GameMap extends React.Component {
     else if (this.state.boardstate[i]===6) return `url(${LRCorner})`
     else if (this.state.boardstate[i]===10) return `url(${portal})`
     else if (this.state.boardstate[i]===-1) return `url(${gold}),url(${this.state.floor})`  
+    else if (this.state.boardstate[i]===-2) return `url(${healthpotion}),url(${this.state.floor})`  
     else if (this.state.boardstate[i]===20) return `url(${necromancer}),url(${this.state.floor})`
   
         
