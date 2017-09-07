@@ -4,7 +4,7 @@
 ### REACT Challenge n.05 - Game of Life - Roguelike Dungeon Crawler Game
 -----------------------------------------------------------------------------------
 
-#### The Project is hosted here in Glitch.com : XXX SPOILER ALERT PUT THE URL HERE XXX 
+#### The Project is hosted here in Glitch.com : https://three-plate.glitch.me
 
 -----------------------------------------------------------------------------------
 __Technologies used__:

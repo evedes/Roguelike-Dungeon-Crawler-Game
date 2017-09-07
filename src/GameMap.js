@@ -226,6 +226,15 @@ let boardArray01 = []
       }
     }
 
+    for (let x = 0 ; x < 10; x++){
+      let genHealth = genPos();
+      if (boardArray01[genHealth]===0){
+        boardArray01[genHealth]=-2;
+      }
+    }
+
+
+
 
 
 
@@ -403,6 +412,13 @@ let boardArray02 = []
       }
     }
 
+    for (let x = 0 ; x < 10; x++){
+      let genHealth = genPos();
+      if (boardArray02[genHealth]===0){
+        boardArray02[genHealth]=-2;
+      }
+    }
+
 
 //
 
@@ -550,6 +566,13 @@ let boardArray03 = []
           boardArray03[genGold]=-1;
         }
       }
+
+      for (let x = 0 ; x < 10; x++){
+        let genHealth = genPos();
+        if (boardArray03[genHealth]===0){
+          boardArray03[genHealth]=-2;
+        }
+      }
   
 //
 
@@ -662,7 +685,13 @@ let boardArray04 = []
           boardArray04[genGold]=-1;
         }
       }
-  
+
+      for (let x = 0 ; x < 10; x++){
+        let genHealth = genPos();
+        if (boardArray04[genHealth]===0){
+          boardArray04[genHealth]=-2;
+        }
+      }
 
 //
 
@@ -709,8 +738,8 @@ class GameMap extends React.Component {
       return `url(${sword01}),url(${heroImg}),url(${this.state.floor})` 
     }
 
-    else if (this.state.boardstate[i]===1) return `url(${wallH})`
-    else if (this.state.boardstate[i]===2) return `url(${wallV})`
+    else if (this.state.boardstate[i]===1) return `url(${wallH})` 
+    else if (this.state.boardstate[i]===2) return `url(${wallV})` 
     else if (this.state.boardstate[i]===3) return `url(${ULCorner})`
     else if (this.state.boardstate[i]===4) return `url(${URCorner})`
     else if (this.state.boardstate[i]===5) return `url(${LLCorner})`
@@ -719,10 +748,7 @@ class GameMap extends React.Component {
     else if (this.state.boardstate[i]===-1) return `url(${gold}),url(${this.state.floor})`  
     else if (this.state.boardstate[i]===-2) return `url(${healthpotion}),url(${this.state.floor})`  
     else if (this.state.boardstate[i]===20) return `url(${necromancer}),url(${this.state.floor})`
-  
-        
-        
-    
+                    
     // floor 
     else if (this.state.boardstate[i]===0) return `url(${this.state.floor})`
 
@@ -746,6 +772,16 @@ class GameMap extends React.Component {
 
     if(e.key && this.state.boardstate[this.state.heroPos]===-1){
       this.setState({gold: this.state.gold+this.state.dungeon*10})
+      if(this.state.dungeon===1){boardArray01[this.state.heroPos]=0}
+      else if(this.state.dungeon===2){boardArray02[this.state.heroPos]=0}
+      else if(this.state.dungeon===3){boardArray03[this.state.heroPos]=0}
+      else boardArray04[this.state.heroPos]=0
+    }
+
+    //HEALTH COLLECT
+
+    if(e.key && this.state.boardstate[this.state.heroPos]===-2){
+      this.setState({health: this.state.health+this.state.dungeon*10})
       if(this.state.dungeon===1){boardArray01[this.state.heroPos]=0}
       else if(this.state.dungeon===2){boardArray02[this.state.heroPos]=0}
       else if(this.state.dungeon===3){boardArray03[this.state.heroPos]=0}
@@ -806,8 +842,6 @@ class GameMap extends React.Component {
         <h3 className="h3title">DUNGEON: {this.state.dungeon}</h3>
         <h3 className="h3title">Gold: +{this.state.gold} | Health: +{this.state.health}</h3>
         <h3 className="h3title">Weapon: {this.state.weapon} | Hero Position: {this.state.heroPos}</h3>
-        <h2 className="h2title">Legend</h2>
-        <h3 className="h3title"><img className="iconsize" src={portal} alt="portal icon" /> Teleport to Next Dungeon</h3>
         <h2 className="h2title">Sound Track</h2>
 
         <iframe src="https://open.spotify.com/embed/track/0placGA69DMyS8NvaFe7Es" title="background-music" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
