@@ -1,3 +1,7 @@
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// Imports needed for the GameMap
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 import React from 'react'
 import keydown from 'react-keydown'
 import './GameMap.css'
@@ -5,6 +9,10 @@ import './GameMap.css'
 // Images Import
 import heroImg from './img/hero.png'
 import floor01 from './img/floor01.png'
+import floor02 from './img/floor02.png'
+import floor03 from './img/floor03.png'
+import floor04 from './img/floor04.png'
+
 import wallH from './img/wall_h.png'
 import wallV from './img/wall_v.png'
 import LRCorner from './img/lower_right_corner.png'
@@ -13,12 +21,16 @@ import ULCorner from './img/upper_left_corner.png'
 import URCorner from './img/upper_right_corner.png'
 import portal from './img/portal.png'
 import sword01 from './img/sword01.png'
+import necromancer from './img/necromancer.png'
+import healthpotion from './img/healthpotion.png'
+import gold from './img/gold.png'
+
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Initialize Game Map Definitions
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Map Codes / Legend
-//  0 - Empty Cell
+//  0 - Empty Cell / Floor / Pavement Tile
 //  1 - Horizontal Wall
 //  2 - Vertical Wall
 //  3 - Upper Left Corner
@@ -26,10 +38,21 @@ import sword01 from './img/sword01.png'
 //  5 - Bottom Left Corner
 //  6 - Bottom Right Corner
 // 10 - Portal Icon
+// 13 - Gold
+// 20 - Necromancer
 
 
 
 // GAME MAPS DESIGN (boardArray01[], boardArray02[], boardArray03[], boardArray04[])
+
+// Random Position Generator
+
+let genPos = () =>{
+  let x = Number(Math.floor(Math.random()*599));
+  return x;
+  }
+
+
 
 //++++++++++++++++++++++++ GAME MAP 01 ++++++++++++++++++++++++
 let boardArray01 = []
@@ -191,6 +214,23 @@ let boardArray01 = []
     boardArray01[554]=2
     boardArray01[556]=2
     boardArray01[565]=2
+
+    
+    // Fulfill the board with Gold Coins   
+
+    for (let x = 0 ; x < 10; x++){
+      let genGold = genPos();
+      if (boardArray01[genGold]===0){
+        boardArray01[genGold]=-1;
+      }
+    }
+
+
+
+
+
+
+
 //
   
 //++++++++++++++++++++++++ GAME MAP 02 ++++++++++++++++++++++++
@@ -355,6 +395,14 @@ let boardArray02 = []
     boardArray02[526]=2
     boardArray02[556]=2
 
+    for (let x = 0 ; x < 10; x++){
+      let genGold = genPos();
+      if (boardArray02[genGold]===0){
+        boardArray02[genGold]=-1;
+      }
+    }
+
+
 //
 
 //++++++++++++++++++++++++ GAME MAP 03 ++++++++++++++++++++++++
@@ -494,6 +542,14 @@ let boardArray03 = []
       boardArray03[544]=10
       boardArray03[545]=2
       boardArray03[559]=2
+
+      for (let x = 0 ; x < 10; x++){
+        let genGold = genPos();
+        if (boardArray03[genGold]===0){
+          boardArray03[genGold]=-1;
+        }
+      }
+  
 //
 
 //++++++++++++++++++++++++ GAME MAP 04 ++++++++++++++++++++++++
@@ -509,6 +565,8 @@ let boardArray04 = []
     boardArray04[570]=5
     boardArray04[599]=6
       
+    //Necromancer
+    boardArray04[234]=20
 
     // Define Exterior Top Horizontal Wall
     for (let i = 1; i < 29 ; i++){
@@ -597,9 +655,15 @@ let boardArray04 = []
       boardArray04[307]=0
       boardArray04[514]=0
 
+      for (let x = 0 ; x < 10; x++){
+        let genGold = genPos();
+        if (boardArray04[genGold]===0){
+          boardArray04[genGold]=-1;
+        }
+      }
+  
+
 //
-
-
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Set Initial State 
@@ -608,13 +672,16 @@ let boardArray04 = []
 function initialState(boardSize) {
   return(
   {
-    boardstate: boardArray04,
+    boardstate: boardArray01,
     lines: 20,
     cols: 30,
     cells: 600, 
-    heroPos: 31,
+    heroPos: 541,
+    floor: floor01,
     dungeon: 1,
-    level: 1
+    gold: 0,
+    health: 20,
+    weapon: 'fists(+3)'
   })
 }
 
@@ -638,7 +705,7 @@ class GameMap extends React.Component {
   heroPos = (i) => {
     
     if(i===this.state.heroPos){
-      return `url(${sword01}),url(${heroImg}),url(${floor01})` 
+      return `url(${sword01}),url(${heroImg}),url(${this.state.floor})` 
     }
 
     else if (this.state.boardstate[i]===1) return `url(${wallH})`
@@ -648,34 +715,54 @@ class GameMap extends React.Component {
     else if (this.state.boardstate[i]===5) return `url(${LLCorner})`
     else if (this.state.boardstate[i]===6) return `url(${LRCorner})`
     else if (this.state.boardstate[i]===10) return `url(${portal})`
+    else if (this.state.boardstate[i]===-1) return `url(${gold}),url(${this.state.floor})`  
+    else if (this.state.boardstate[i]===20) return `url(${necromancer}),url(${this.state.floor})`
+  
+        
         
     
     // floor 
-    else if (this.state.boardstate[i]===0) return `url(${floor01})`
+    else if (this.state.boardstate[i]===0) return `url(${this.state.floor})`
 
     
   }
 
   heroMove = (e) =>{
+
+    // PORTAL PASSAGES
     if (e.key === 'ArrowRight' && this.state.heroPos === 543 && this.state.boardstate[this.state.heroPos+1]===10) {
-      this.setState({boardstate: boardArray04, heroPos: 31, dungeon:4})
+      this.setState({boardstate: boardArray04, floor: floor04,  heroPos: 31, dungeon:4})
     }
     if (e.key === 'ArrowLeft' && this.state.heroPos ===311 && this.state.boardstate[this.state.heroPos-1]===10) {
-      this.setState({boardstate: boardArray03, heroPos: 310, dungeon:3})
+      this.setState({boardstate: boardArray03, floor: floor03, heroPos: 310, dungeon:3})
     }
     if (e.key === 'ArrowRight' && this.state.heroPos===208 && this.state.boardstate[this.state.heroPos+1]===10) {
-      this.setState({boardstate: boardArray02, heroPos: 180, dungeon:2})
+      this.setState({boardstate: boardArray02, floor: floor02, heroPos: 180, dungeon:2})
     }
-    if (e.key === 'ArrowUp' && this.state.heroPos-30>=0 && (this.state.boardstate[this.state.heroPos-30]===0)) {
-      this.setState({heroPos: this.state.heroPos-30})
+
+    //GOLD COLLECT
+
+    if(e.key && this.state.boardstate[this.state.heroPos]===-1){
+      this.setState({gold: this.state.gold+this.state.dungeon*10})
+      if(this.state.dungeon===1){boardArray01[this.state.heroPos]=0}
+      else if(this.state.dungeon===2){boardArray02[this.state.heroPos]=0}
+      else if(this.state.dungeon===3){boardArray03[this.state.heroPos]=0}
+      else boardArray04[this.state.heroPos]=0
     }
-    if (e.key === 'ArrowRight' && this.state.heroPos+1<=599 && this.state.boardstate[this.state.heroPos+1]===0) {
+
+    //HERO MOVES
+
+    if (e.key === 'ArrowUp' && this.state.boardstate[this.state.heroPos-30] <= 0) {
+      this.setState({heroPos: this.state.heroPos-30}) 
+    }
+  
+    if (e.key === 'ArrowRight' && this.state.heroPos+1<=599 && this.state.boardstate[this.state.heroPos+1]<=0) {
       this.setState({heroPos: this.state.heroPos+1})
     }
-    if (e.key === 'ArrowLeft' && this.state.heroPos-1>=0 && this.state.boardstate[this.state.heroPos-1]===0) {
+    if (e.key === 'ArrowLeft' && this.state.heroPos-1>=0 && this.state.boardstate[this.state.heroPos-1]<=0) {
       this.setState({heroPos: this.state.heroPos-1})
     }
-    if (e.key === 'ArrowDown' && this.state.heroPos+30<=599 && this.state.boardstate[this.state.heroPos+30]===0) {
+    if (e.key === 'ArrowDown' && this.state.heroPos+30<=599 && this.state.boardstate[this.state.heroPos+30]<=0) {
       this.setState({heroPos: this.state.heroPos+30})
     }
     
@@ -683,10 +770,7 @@ class GameMap extends React.Component {
 
   }
 
-  boardElement(cell){
-    if(cell===0) return '#222'
-  }
-
+ 
 
   render(){
        
@@ -714,16 +798,17 @@ class GameMap extends React.Component {
       </div>
       
       <div className="col-md-4">
+        <h2 className="h2title">Story</h2>
+        <h5 className="h5title">Welcome to the realm of Lord Herald, the Necromancer! Lord Herald was once possessed by a demoniac spirit which darkened his soul and transformed his heart into a rock. You are the hero of this game and you need to save your damsel-in-distress. Lord Herald prepares to slay her and summon her soul, enchanting her dead body to praise the evil forces in order to strengthen himself and rule the world! Hurry up! Kill Herald and save your princess!</h5>
         <h2 className="h2title">Player's Status</h2> 
-        <h3 className="h3title">DUNGEON: {this.state.dungeon} | LEVEL: {this.state.level}</h3>
-        <h3 className="h3title">Healt: +100</h3>
-        <h3 className="h3title">Weapon: Fists(+3)</h3>
-        <h3 className="h3title">Hero Position: {this.state.heroPos}</h3>
+        <h3 className="h3title">DUNGEON: {this.state.dungeon}</h3>
+        <h3 className="h3title">Gold: +{this.state.gold} | Health: +{this.state.health}</h3>
+        <h3 className="h3title">Weapon: {this.state.weapon} | Hero Position: {this.state.heroPos}</h3>
         <h2 className="h2title">Legend</h2>
         <h3 className="h3title"><img className="iconsize" src={portal} alt="portal icon" /> Teleport to Next Dungeon</h3>
         <h2 className="h2title">Sound Track</h2>
 
-        <iframe src="https://open.spotify.com/embed/track/0placGA69DMyS8NvaFe7Es" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
+        <iframe src="https://open.spotify.com/embed/track/0placGA69DMyS8NvaFe7Es" title="background-music" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
 
     
       </div>

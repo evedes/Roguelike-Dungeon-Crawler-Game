@@ -50,6 +50,14 @@
     color: yellow;
 }
 
+.h5title{
+    padding: 10px;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 15px;
+    color: yellow;
+
+}
+
 .textinfo{    
     font-family: 'Roboto Condensed', sans-serif;
     font-size: 18px;
