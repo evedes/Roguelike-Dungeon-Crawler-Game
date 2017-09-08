@@ -2,8 +2,15 @@
     text-align: center;
     background-color: #555;
     background-image: url('./img/oldpaperbackground.jpg');
-    height: 75vh;
+    height: 80vh;
 }
+
+
+
+.spotify{
+    border: 0;
+}
+
 
 .gamemap{
     box-sizing: border-box;

@@ -24,6 +24,11 @@ import sword01 from './img/sword01.png'
 import necromancer from './img/necromancer.png'
 import healthpotion from './img/healthpotion.png'
 import gold from './img/gold.png'
+import monster01 from './img/monster01.png'
+import monster02 from './img/monster02.png'
+import monster03 from './img/monster03.png'
+import monster04 from './img/monster04.png'
+import deadhero from './img/deadhero.png'
 
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -222,16 +227,29 @@ let boardArray01 = []
     for (let x = 0 ; x < 10; x++){
       let genGold = genPos();
       if (boardArray01[genGold]===0){
-        boardArray01[genGold]=-1;
+        boardArray01[genGold]=-1
       }
+      else x--
     }
 
-    for (let x = 0 ; x < 10; x++){
+    // Fulfill the board with Health Bottles
+    for (let x = 0 ; x < 5; x++){
       let genHealth = genPos();
       if (boardArray01[genHealth]===0){
-        boardArray01[genHealth]=-2;
+        boardArray01[genHealth]=-2
       }
+      else x--
     }
+
+    // Fulfill the game with monsters01
+    for (let x = 0 ; x < 15; x++){
+      let genMonster01= genPos();
+      if (boardArray01[genMonster01]===0){
+        boardArray01[genMonster01]=-10
+      }
+      else x--
+    }
+
 
 
 
@@ -405,6 +423,7 @@ let boardArray02 = []
     boardArray02[526]=2
     boardArray02[556]=2
 
+    // Fulfill the game with gold
     for (let x = 0 ; x < 10; x++){
       let genGold = genPos();
       if (boardArray02[genGold]===0){
@@ -412,10 +431,19 @@ let boardArray02 = []
       }
     }
 
+    // Fulfill the game with health bottles
     for (let x = 0 ; x < 10; x++){
       let genHealth = genPos();
       if (boardArray02[genHealth]===0){
         boardArray02[genHealth]=-2;
+      }
+    }
+
+    // Fulfill the game with monsters02
+    for (let x = 0 ; x < 15; x++){
+      let genMonster02= genPos();
+      if (boardArray02[genMonster02]===0){
+        boardArray02[genMonster02]=-11;
       }
     }
 
@@ -560,6 +588,7 @@ let boardArray03 = []
       boardArray03[545]=2
       boardArray03[559]=2
 
+      // Fulfill the game with gold
       for (let x = 0 ; x < 10; x++){
         let genGold = genPos();
         if (boardArray03[genGold]===0){
@@ -567,12 +596,21 @@ let boardArray03 = []
         }
       }
 
+      // Fulfill the game with health bottles
       for (let x = 0 ; x < 10; x++){
         let genHealth = genPos();
         if (boardArray03[genHealth]===0){
           boardArray03[genHealth]=-2;
         }
       }
+
+    // Fulfill the game with monsters03
+    for (let x = 0 ; x < 15; x++){
+      let genMonster03= genPos();
+      if (boardArray03[genMonster03]===0){
+        boardArray03[genMonster03]=-12;
+      }
+    }
   
 //
 
@@ -693,6 +731,14 @@ let boardArray04 = []
         }
       }
 
+      // Fulfill the game with monsters04
+    for (let x = 0 ; x < 15; x++){
+      let genMonster04= genPos();
+      if (boardArray04[genMonster04]===0){
+        boardArray04[genMonster04]=-13;
+      }
+    }
+
 //
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -711,7 +757,8 @@ function initialState(boardSize) {
     dungeon: 1,
     gold: 0,
     health: 20,
-    weapon: 'fists(+3)'
+    weapon: 3,
+    weapontype: 'fists(+3)'
   })
 }
 
@@ -734,10 +781,11 @@ class GameMap extends React.Component {
 
   heroPos = (i) => {
     
+    // Hero Position while Alive
     if(i===this.state.heroPos){
       return `url(${sword01}),url(${heroImg}),url(${this.state.floor})` 
     }
-
+    
     else if (this.state.boardstate[i]===1) return `url(${wallH})` 
     else if (this.state.boardstate[i]===2) return `url(${wallV})` 
     else if (this.state.boardstate[i]===3) return `url(${ULCorner})`
@@ -748,7 +796,14 @@ class GameMap extends React.Component {
     else if (this.state.boardstate[i]===-1) return `url(${gold}),url(${this.state.floor})`  
     else if (this.state.boardstate[i]===-2) return `url(${healthpotion}),url(${this.state.floor})`  
     else if (this.state.boardstate[i]===20) return `url(${necromancer}),url(${this.state.floor})`
-                    
+    else if (this.state.boardstate[i]===-10) return `url(${monster01}),url(${this.state.floor})`
+    else if (this.state.boardstate[i]===-11) return `url(${monster02}),url(${this.state.floor})`
+    else if (this.state.boardstate[i]===-12) return `url(${monster03}),url(${this.state.floor})`
+    else if (this.state.boardstate[i]===-13) return `url(${monster04}),url(${this.state.floor})`
+    else if (this.state.boardstate[i]===-100) return `url(${deadhero}),url(${this.state.floor})`
+        
+      
+
     // floor 
     else if (this.state.boardstate[i]===0) return `url(${this.state.floor})`
 
@@ -788,6 +843,20 @@ class GameMap extends React.Component {
       else boardArray04[this.state.heroPos]=0
     }
 
+    //MONSTER TYPE 01 FIGHT
+
+    if(e.key && this.state.boardstate[this.state.heroPos]===-10){
+      this.setState({health: Number(this.state.health-(this.state.weapon*Math.floor(Math.random()*5)+1))})
+      
+      if(this.state.health<=0){boardArray01[this.state.heroPos]=-100}
+      
+      if(this.state.dungeon===1){boardArray01[this.state.heroPos]=0}
+      else if(this.state.dungeon===2){boardArray02[this.state.heroPos]=0}
+      else if(this.state.dungeon===3){boardArray03[this.state.heroPos]=0}
+      else boardArray04[this.state.heroPos]=0
+    }
+    // if(this.state.health<=0){boardArray01[this.state.heroPos]=-100}
+
     //HERO MOVES
 
     if (e.key === 'ArrowUp' && this.state.boardstate[this.state.heroPos-30] <= 0) {
@@ -803,51 +872,37 @@ class GameMap extends React.Component {
     if (e.key === 'ArrowDown' && this.state.heroPos+30<=599 && this.state.boardstate[this.state.heroPos+30]<=0) {
       this.setState({heroPos: this.state.heroPos+30})
     }
-    
-   
-
   }
 
  
 
-  render(){
-       
+  render(){    
     return( 
-
-
-
       <div className="maincontainer row">
-
-
-      
-      <div className="col-md-8">
-
-          {/* return the gaming map */}
-          <div className="gamemap">
-             {
-              this.state.boardstate.map((cell,i)=>{
-              return(
-                <div style={{backgroundImage: this.heroPos(i) }} className="square" value={cell} key={i}></div>
-              )
-              })
-            }
-          
+   
+          <div className="col-md-8">
+              {/* return the gaming map */}
+              <div className="gamemap">
+                {
+                  this.state.boardstate.map((cell,i)=>{
+                  return(
+                    <div style={{backgroundImage: this.heroPos(i) }} className="square" value={cell} key={i}></div>
+                  )
+                  })
+                }
+              </div>
           </div>
-      </div>
       
-      <div className="col-md-4">
-        <h2 className="h2title">Story</h2>
-        <h5 className="h5title">Welcome to the realm of Lord Herald, the Necromancer! Lord Herald was once possessed by a demoniac spirit which darkened his soul and transformed his heart into a rock. You are the hero of this game and you need to save your damsel-in-distress. Lord Herald prepares to slay her and summon her soul, enchanting her dead body to praise the evil forces in order to strengthen himself and rule the world! Hurry up! Kill Herald and save your princess!</h5>
-        <h2 className="h2title">Player's Status</h2> 
-        <h3 className="h3title">DUNGEON: {this.state.dungeon}</h3>
-        <h3 className="h3title">Gold: +{this.state.gold} | Health: +{this.state.health}</h3>
-        <h3 className="h3title">Weapon: {this.state.weapon} | Hero Position: {this.state.heroPos}</h3>
-        <h2 className="h2title">Sound Track</h2>
-
-        <iframe src="https://open.spotify.com/embed/track/0placGA69DMyS8NvaFe7Es" title="background-music" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
-
-    
-      </div>
+          <div className="col-md-4 infocol">
+            <h2 className="h2title">Story</h2>
+            <h5 className="h5title">Welcome to the realm of Lord Herald, the Necromancer! Lord Herald was once possessed by a demoniac spirit which darkened his soul and transformed his heart into a rock. You are the hero of this game and you need to save your damsel-in-distress. Lord Herald prepares to slay her and summon her soul, enchanting her dead body to praise the evil forces in order to strengthen himself and rule the world! Hurry up! Kill Herald and save your princess!</h5>
+            <h2 className="h2title">Player's Status</h2> 
+            <h3 className="h3title">DUNGEON: {this.state.dungeon}</h3>
+            <h3 className="h3title"><img src={healthpotion} alt="health potion icon"/>: {this.state.health}</h3><h3 className="h3title"><img src={gold} alt="gold coin icon"/>: {this.state.gold}</h3>
+            <h3 className="h3title">Weapon: {this.state.weapontype} | Hero Position: {this.state.heroPos}</h3>
+            <h2 className="h2title">Sound Track</h2>
+            <iframe className="spotify" src="https://open.spotify.com/embed/track/0placGA69DMyS8NvaFe7Es" title="background-music" width="300" height="80" frameborder="0" allowtransparency="true"></iframe>
+          </div>
            
       </div>
     )
