@@ -30,26 +30,12 @@ import monster03 from './img/monster03.png'
 import monster04 from './img/monster04.png'
 import deadhero from './img/deadhero.png'
 
+// System Global Vars
+let count = 0
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// Initialize Game Map Definitions
+// Auxiliary Functions
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// Map Codes / Legend
-//  0 - Empty Cell / Floor / Pavement Tile
-//  1 - Horizontal Wall
-//  2 - Vertical Wall
-//  3 - Upper Left Corner
-//  4 - Upper Right Corner
-//  5 - Bottom Left Corner
-//  6 - Bottom Right Corner
-// 10 - Portal Icon
-// 20 - Necromancer
-// -1 - Gold
-// -2 - Health Bottles
-
-
-
-// GAME MAPS DESIGN (boardArray01[], boardArray02[], boardArray03[], boardArray04[])
 
 // Random Position Generator
 
@@ -60,7 +46,33 @@ let genPos = () =>{
 
 
 
-//++++++++++++++++++++++++ GAME MAP 01 ++++++++++++++++++++++++
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// Initialize Game Map Definitions                                                         +
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// Map Codes / Legend
+// -1 - Gold
+// -2 - Health Bottles
+//  0 - Empty Cell / Floor / Pavement Tile
+//  1 - Horizontal Wall
+//  2 - Vertical Wall
+//  3 - Upper Left Corner
+//  4 - Upper Right Corner
+//  5 - Bottom Left Corner
+//  6 - Bottom Right Corner
+// 10 - Portal Icon
+// 15 - Monster 01
+// 16 - Monster 02
+// 17 - Monster 03
+// 18 - Monster 04
+// 20 - Necromancer                                                                        +
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// GAME MAPS DESIGN (boardArray01[], boardArray02[], boardArray03[], boardArray04[])
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+// MAP 01
 let boardArray01 = []
 
     for (let i = 0 ; i < 600 ; i++) {
@@ -245,7 +257,7 @@ let boardArray01 = []
     for (let x = 0 ; x < 15; x++){
       let genMonster01= genPos();
       if (boardArray01[genMonster01]===0){
-        boardArray01[genMonster01]=-10
+        boardArray01[genMonster01]=15
       }
       else x--
     }
@@ -261,7 +273,7 @@ let boardArray01 = []
 
 //
   
-//++++++++++++++++++++++++ GAME MAP 02 ++++++++++++++++++++++++
+// MAP 02
 let boardArray02 = []
 
     for (let i = 0 ; i < 600 ; i++) {
@@ -443,14 +455,14 @@ let boardArray02 = []
     for (let x = 0 ; x < 15; x++){
       let genMonster02= genPos();
       if (boardArray02[genMonster02]===0){
-        boardArray02[genMonster02]=-11;
+        boardArray02[genMonster02]=16;
       }
     }
 
 
 //
 
-//++++++++++++++++++++++++ GAME MAP 03 ++++++++++++++++++++++++
+//MAP 03
 let boardArray03 = []
 
     for (let i = 0 ; i < 600 ; i++) {
@@ -608,13 +620,13 @@ let boardArray03 = []
     for (let x = 0 ; x < 15; x++){
       let genMonster03= genPos();
       if (boardArray03[genMonster03]===0){
-        boardArray03[genMonster03]=-12;
+        boardArray03[genMonster03]=17;
       }
     }
   
 //
 
-//++++++++++++++++++++++++ GAME MAP 04 ++++++++++++++++++++++++
+//MAP 04
 let boardArray04 = []
 
     for (let i = 0 ; i < 600; i++){
@@ -735,7 +747,7 @@ let boardArray04 = []
     for (let x = 0 ; x < 15; x++){
       let genMonster04= genPos();
       if (boardArray04[genMonster04]===0){
-        boardArray04[genMonster04]=-13;
+        boardArray04[genMonster04]=18;
       }
     }
 
@@ -745,7 +757,7 @@ let boardArray04 = []
 // Set Initial State 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-function initialState(boardSize) {
+function initialState() {
   return(
   {
     boardstate: boardArray01,
@@ -763,7 +775,7 @@ function initialState(boardSize) {
 }
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// GAME MAP CLASS
+// GAME MAP/GENERAL CLASS
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 class GameMap extends React.Component {
@@ -782,10 +794,16 @@ class GameMap extends React.Component {
   heroPos = (i) => {
     
     // Hero Position while Alive
-    if(i===this.state.heroPos){
-      return `url(${sword01}),url(${heroImg}),url(${this.state.floor})` 
+    if(i===this.state.heroPos && this.state.health >0){
+      return `url(${sword01}),url(${heroImg}),url(${this.state.floor})`   
     }
-    
+
+    // If Health reaches 0 the Hero Dies 
+    else if(i===this.state.heroPos && this.state.health <=0){
+      this.setState({...initialState()})
+      return `url(${deadhero}),url(${this.state.floor})`
+    }
+
     else if (this.state.boardstate[i]===1) return `url(${wallH})` 
     else if (this.state.boardstate[i]===2) return `url(${wallV})` 
     else if (this.state.boardstate[i]===3) return `url(${ULCorner})`
@@ -796,19 +814,13 @@ class GameMap extends React.Component {
     else if (this.state.boardstate[i]===-1) return `url(${gold}),url(${this.state.floor})`  
     else if (this.state.boardstate[i]===-2) return `url(${healthpotion}),url(${this.state.floor})`  
     else if (this.state.boardstate[i]===20) return `url(${necromancer}),url(${this.state.floor})`
-    else if (this.state.boardstate[i]===-10) return `url(${monster01}),url(${this.state.floor})`
-    else if (this.state.boardstate[i]===-11) return `url(${monster02}),url(${this.state.floor})`
-    else if (this.state.boardstate[i]===-12) return `url(${monster03}),url(${this.state.floor})`
-    else if (this.state.boardstate[i]===-13) return `url(${monster04}),url(${this.state.floor})`
+    else if (this.state.boardstate[i]===15) return `url(${monster01}),url(${this.state.floor})`
+    else if (this.state.boardstate[i]===16) return `url(${monster02}),url(${this.state.floor})`
+    else if (this.state.boardstate[i]===17) return `url(${monster03}),url(${this.state.floor})`
+    else if (this.state.boardstate[i]===18) return `url(${monster04}),url(${this.state.floor})`
     else if (this.state.boardstate[i]===-100) return `url(${deadhero}),url(${this.state.floor})`
-        
-      
-
-    // floor 
     else if (this.state.boardstate[i]===0) return `url(${this.state.floor})`
-
-    
-  }
+}
 
   heroMove = (e) =>{
 
@@ -837,32 +849,192 @@ class GameMap extends React.Component {
 
     if(e.key && this.state.boardstate[this.state.heroPos]===-2){
       this.setState({health: this.state.health+this.state.dungeon*10})
-      if(this.state.dungeon===1){boardArray01[this.state.heroPos]=0}
-      else if(this.state.dungeon===2){boardArray02[this.state.heroPos]=0}
-      else if(this.state.dungeon===3){boardArray03[this.state.heroPos]=0}
-      else boardArray04[this.state.heroPos]=0
+        if(this.state.dungeon===1){boardArray01[this.state.heroPos]=0}
+        else if(this.state.dungeon===2){boardArray02[this.state.heroPos]=0}
+        else if(this.state.dungeon===3){boardArray03[this.state.heroPos]=0}
+        else boardArray04[this.state.heroPos]=0
     }
 
     //MONSTER TYPE 01 FIGHT
+        
+        if(e.key === 'ArrowRight' && this.state.boardstate[this.state.heroPos+1]===15){
+          count+=1
+          let attack = Number(this.state.weapon*Math.floor(Math.random()*5)+1)
+          this.setState({health: this.state.health-attack})
+          
+              if(count===2){
+                boardArray01[this.state.heroPos+1]=0
+                count=0
+              }
+        }
+        if(e.key === 'ArrowLeft' && this.state.boardstate[this.state.heroPos-1]===15){
+          count+=1
+          let attack = Number(this.state.weapon*Math.floor(Math.random()*5)+1)
+          this.setState({health: this.state.health-attack})
+          
+              if(count===2){
+                boardArray01[this.state.heroPos-1]=0
+                count=0
+              }
+        }
+        if(e.key === 'ArrowDown' && this.state.boardstate[this.state.heroPos+30]===15){
+          count+=1
+          let attack = Number(this.state.weapon*Math.floor(Math.random()*5)+1)
+          this.setState({health: this.state.health-attack})
+          
+              if(count===2){
+                boardArray01[this.state.heroPos+30]=0
+                count=0
+              }
+        }
+        if(e.key === 'ArrowUp' && this.state.boardstate[this.state.heroPos-30]===15){
+          count+=1
+          let attack = Number(this.state.weapon*Math.floor(Math.random()*5)+1)
+          this.setState({health: this.state.health-attack})
+          
+              if(count===2){
+                boardArray01[this.state.heroPos-30]=0
+                count=0
+              }
+        }
+        
 
-    if(e.key && this.state.boardstate[this.state.heroPos]===-10){
-      this.setState({health: Number(this.state.health-(this.state.weapon*Math.floor(Math.random()*5)+1))})
-      
-      if(this.state.health<=0){boardArray01[this.state.heroPos]=-100}
-      
-      if(this.state.dungeon===1){boardArray01[this.state.heroPos]=0}
-      else if(this.state.dungeon===2){boardArray02[this.state.heroPos]=0}
-      else if(this.state.dungeon===3){boardArray03[this.state.heroPos]=0}
-      else boardArray04[this.state.heroPos]=0
-    }
-    // if(this.state.health<=0){boardArray01[this.state.heroPos]=-100}
+    //MONSTER TYPE 02 FIGHT
+
+        if(e.key === 'ArrowRight' && this.state.boardstate[this.state.heroPos+1]===16){
+          count+=1
+          let attack = Number(this.state.weapon*Math.floor(Math.random()*5)+1)
+          this.setState({health: this.state.health-attack})
+          
+              if(count===2){
+                boardArray02[this.state.heroPos+1]=0
+                count=0
+              }
+        }
+        if(e.key === 'ArrowLeft' && this.state.boardstate[this.state.heroPos-1]===16){
+          count+=1
+          let attack = Number(this.state.weapon*Math.floor(Math.random()*5)+1)
+          this.setState({health: this.state.health-attack})
+          
+              if(count===2){
+                boardArray02[this.state.heroPos-1]=0
+                count=0
+              }
+        }
+        if(e.key === 'ArrowDown' && this.state.boardstate[this.state.heroPos+30]===16){
+          count+=1
+          let attack = Number(this.state.weapon*Math.floor(Math.random()*5)+1)
+          this.setState({health: this.state.health-attack})
+          
+              if(count===2){
+                boardArray02[this.state.heroPos+30]=0
+                count=0
+              }
+        }
+        if(e.key === 'ArrowUp' && this.state.boardstate[this.state.heroPos-30]===16){
+          count+=1
+          let attack = Number(this.state.weapon*Math.floor(Math.random()*5)+1)
+          this.setState({health: this.state.health-attack})
+          
+              if(count===2){
+                boardArray02[this.state.heroPos-30]=0
+                count=0
+              }
+        }
+    
+    
+      //MONSTER TYPE 03 FIGHT
+
+      if(e.key === 'ArrowRight' && this.state.boardstate[this.state.heroPos+1]===17){
+        count+=1
+        let attack = Number(this.state.weapon*Math.floor(Math.random()*5)+1)
+        this.setState({health: this.state.health-attack})
+        
+            if(count===2){
+              boardArray03[this.state.heroPos+1]=0
+              count=0
+            }
+      }
+      if(e.key === 'ArrowLeft' && this.state.boardstate[this.state.heroPos-1]===17){
+        count+=1
+        let attack = Number(this.state.weapon*Math.floor(Math.random()*5)+1)
+        this.setState({health: this.state.health-attack})
+        
+            if(count===2){
+              boardArray03[this.state.heroPos-1]=0
+              count=0
+            }
+      }
+      if(e.key === 'ArrowDown' && this.state.boardstate[this.state.heroPos+30]===17){
+        count+=1
+        let attack = Number(this.state.weapon*Math.floor(Math.random()*5)+1)
+        this.setState({health: this.state.health-attack})
+        
+            if(count===2){
+              boardArray03[this.state.heroPos+30]=0
+              count=0
+            }
+      }
+      if(e.key === 'ArrowUp' && this.state.boardstate[this.state.heroPos-30]===17){
+        count+=1
+        let attack = Number(this.state.weapon*Math.floor(Math.random()*5)+1)
+        this.setState({health: this.state.health-attack})
+        
+            if(count===2){
+              boardArray03[this.state.heroPos-30]=0
+              count=0
+            }
+      }
+    
+      //MONSTER TYPE 04 FIGHT
+
+      if(e.key === 'ArrowRight' && this.state.boardstate[this.state.heroPos+1]===18){
+        count+=1
+        let attack = Number(this.state.weapon*Math.floor(Math.random()*5)+1)
+        this.setState({health: this.state.health-attack})
+        
+            if(count===2){
+              boardArray04[this.state.heroPos+1]=0
+              count=0
+            }
+      }
+      if(e.key === 'ArrowLeft' && this.state.boardstate[this.state.heroPos-1]===18){
+        count+=1
+        let attack = Number(this.state.weapon*Math.floor(Math.random()*5)+1)
+        this.setState({health: this.state.health-attack})
+        
+            if(count===2){
+              boardArray04[this.state.heroPos-1]=0
+              count=0
+            }
+      }
+      if(e.key === 'ArrowDown' && this.state.boardstate[this.state.heroPos+30]===18){
+        count+=1
+        let attack = Number(this.state.weapon*Math.floor(Math.random()*5)+1)
+        this.setState({health: this.state.health-attack})
+        
+            if(count===2){
+              boardArray04[this.state.heroPos+30]=0
+              count=0
+            }
+      }
+      if(e.key === 'ArrowUp' && this.state.boardstate[this.state.heroPos-30]===18){
+        count+=1
+        let attack = Number(this.state.weapon*Math.floor(Math.random()*5)+1)
+        this.setState({health: this.state.health-attack})
+        
+            if(count===2){
+              boardArray04[this.state.heroPos-30]=0
+              count=0
+            }
+      }
+
 
     //HERO MOVES
 
     if (e.key === 'ArrowUp' && this.state.boardstate[this.state.heroPos-30] <= 0) {
       this.setState({heroPos: this.state.heroPos-30}) 
     }
-  
     if (e.key === 'ArrowRight' && this.state.heroPos+1<=599 && this.state.boardstate[this.state.heroPos+1]<=0) {
       this.setState({heroPos: this.state.heroPos+1})
     }
@@ -871,8 +1043,10 @@ class GameMap extends React.Component {
     }
     if (e.key === 'ArrowDown' && this.state.heroPos+30<=599 && this.state.boardstate[this.state.heroPos+30]<=0) {
       this.setState({heroPos: this.state.heroPos+30})
-    }
-  }
+    }   
+
+  } // heroMove function END
+ 
 
  
 
@@ -894,6 +1068,8 @@ class GameMap extends React.Component {
           </div>
       
           <div className="col-md-4 infocol">
+            <h2 className="h2title">Game Control</h2>
+            <h3 className="h3title"><button className="btn btn-warning">RESTART</button></h3>
             <h2 className="h2title">Story</h2>
             <h5 className="h5title">Welcome to the realm of Lord Herald, the Necromancer! Lord Herald was once possessed by a demoniac spirit which darkened his soul and transformed his heart into a rock. You are the hero of this game and you need to save your damsel-in-distress. Lord Herald prepares to slay her and summon her soul, enchanting her dead body to praise the evil forces in order to strengthen himself and rule the world! Hurry up! Kill Herald and save your princess!</h5>
             <h2 className="h2title">Player's Status</h2> 
