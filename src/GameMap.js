@@ -21,10 +21,15 @@ import LLCorner from './img/lower_left_corner.png'
 import ULCorner from './img/upper_left_corner.png'
 import URCorner from './img/upper_right_corner.png'
 import portal from './img/portal.png'
-import sword01 from './img/sword01.png'
+import sword from './img/sword.png'
+import sword_hand from './img/sword_hand.png'
+import axe_hand from './img/axe_hand.png'
+import trident_hand from './img/trident_hand.png'
+
 import necromancer from './img/necromancer.png'
 import healthpotion from './img/healthpotion.png'
 import gold from './img/gold.png'
+import goldreduced from './img/goldreduced.png'
 import monster01 from './img/monster01.png'
 import monster02 from './img/monster02.png'
 import monster03 from './img/monster03.png'
@@ -250,6 +255,15 @@ let boardArray01 = []
       let genHealth = genPos();
       if (boardArray01[genHealth]===0){
         boardArray01[genHealth]=-2
+      }
+      else x--
+    }
+
+    // Fulfill the board with Sword 
+    for (let x = 0 ; x < 2; x++){
+      let genSword = genPos();
+      if (boardArray01[genSword]===0){
+        boardArray01[genSword]=-15
       }
       else x--
     }
@@ -770,7 +784,7 @@ function initialState() {
     dungeon: 1,
     gold: 0,
     health: 20,
-    weapon: 3,
+    weapon: 0,
     weapontype: 'fists(+3)'
   })
 }
@@ -796,7 +810,20 @@ class GameMap extends React.Component {
     
     // Hero Position while Alive
     if(i===this.state.heroPos && this.state.health >0){
-      return `url(${sword01}),url(${heroImg}),url(${this.state.floor})`   
+      if (this.state.weapon===0){
+        return `url(${heroImg}),url(${this.state.floor})`   
+      }
+      if (this.state.weapon===1){
+        return `url(${sword_hand}),url(${heroImg}),url(${this.state.floor})`   
+        
+      }
+      if (this.state.weapon===3){
+        return `url(${axe_hand}),url(${heroImg}),url(${this.state.floor})`   
+      }
+      if (this.state.weapon===4){
+        return `url(${trident_hand}),url(${heroImg}),url(${this.state.floor})`   
+      }
+
     }
 
     // If Health reaches 0 the Hero Dies 
@@ -821,6 +848,7 @@ class GameMap extends React.Component {
     else if (this.state.boardstate[i]===18) return `url(${monster04}),url(${this.state.floor})`
     else if (this.state.boardstate[i]===-100) return `url(${deadhero}),url(${this.state.floor})`
     else if (this.state.boardstate[i]===0) return `url(${this.state.floor})`
+    else if (this.state.boardstate[i]===-15) return `url(${sword}),url(${this.state.floor})`
 }
 
   heroMove = (e) =>{
@@ -898,7 +926,7 @@ class GameMap extends React.Component {
                 count=0
               }
         }
-        
+    //        
 
     //MONSTER TYPE 02 FIGHT
 
@@ -942,9 +970,9 @@ class GameMap extends React.Component {
                 count=0
               }
         }
+    //
     
-    
-      //MONSTER TYPE 03 FIGHT
+    //MONSTER TYPE 03 FIGHT
 
       if(e.key === 'ArrowRight' && this.state.boardstate[this.state.heroPos+1]===17){
         count+=1
@@ -986,8 +1014,9 @@ class GameMap extends React.Component {
               count=0
             }
       }
+    //
     
-      //MONSTER TYPE 04 FIGHT
+    //MONSTER TYPE 04 FIGHT
 
       if(e.key === 'ArrowRight' && this.state.boardstate[this.state.heroPos+1]===18){
         count+=1
@@ -1029,7 +1058,7 @@ class GameMap extends React.Component {
               count=0
             }
       }
-
+    //
 
     //HERO MOVES
 
@@ -1075,10 +1104,8 @@ class GameMap extends React.Component {
             <h5 className="h5title">Welcome to the realm of Lord Herald, the Necromancer! Lord Herald was once possessed by a demoniac spirit which darkened his soul and transformed his heart into a rock. You are the hero of this game and you need to save your damsel-in-distress. Lord Herald prepares to slay her and summon her soul, enchanting her dead body to praise the evil forces in order to strengthen himself and rule the world! Hurry up! Kill Herald and save your princess!</h5>
             <h2 className="h2title">Player's Status</h2> 
             <h3 className="h3title">DUNGEON: {this.state.dungeon}</h3>
-            <h3 className="h3title"><img src={healthpotion} alt="health potion icon"/>: {this.state.health}</h3><h3 className="h3title"><img src={gold} alt="gold coin icon"/>: {this.state.gold}</h3>
-            <h3 className="h3title">Weapon: {this.state.weapontype} | Hero Position: {this.state.heroPos}</h3>
-            <h2 className="h2title">Sound Track</h2>
-            <iframe className="spotify" src="https://open.spotify.com/embed/track/0placGA69DMyS8NvaFe7Es" title="background-music" width="300" height="80" frameborder="0" allowtransparency="true"></iframe>
+            <h3 className="h3title">Health: {this.state.health} | Gold: + {this.state.gold} | Weapon: {this.state.weapontype}</h3>
+            <h3 className="h3title">Hero Position: {this.state.heroPos}</h3>
           </div>
            
       </div>
