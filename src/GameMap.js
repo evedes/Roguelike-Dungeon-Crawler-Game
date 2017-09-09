@@ -8,6 +8,7 @@ import './GameMap.css'
 
 // Images Import
 import heroImg from './img/hero.png'
+import deadhero from './img/deadhero.png'
 import floor01 from './img/floor01.png'
 import floor02 from './img/floor02.png'
 import floor03 from './img/floor03.png'
@@ -28,7 +29,7 @@ import monster01 from './img/monster01.png'
 import monster02 from './img/monster02.png'
 import monster03 from './img/monster03.png'
 import monster04 from './img/monster04.png'
-import deadhero from './img/deadhero.png'
+
 
 // System Global Vars
 let count = 0
