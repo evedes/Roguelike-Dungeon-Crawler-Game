@@ -6,6 +6,7 @@ import React from 'react'
 import keydown from 'react-keydown'
 import './GameMap.css'
 
+
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Imports of Images needed for the Game
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -13,6 +14,7 @@ import './GameMap.css'
 import heroImg from './img/hero.png'
 import deadhero from './img/deadhero.png'
 import necromancer from './img/necromancer.png'
+import fog from './img/fog.png'
 
 import floor01 from './img/floor01.png'
 import floor02 from './img/floor02.png'
@@ -821,7 +823,7 @@ function initialState() {
     mobs3: genMobs3(),
     mobs4: genMobs4(),
     count: 5,
-    heroPos: 541,
+    heroPos: 513,
     floor: floor01,
     dungeon: 1,
     dungeontitle: 'The Skeleton Army',
@@ -831,6 +833,7 @@ function initialState() {
     weapontype: 'fists(+3)',
     boss: 1,
     honorpoints: 0,
+    fog: 1,
   })
 }
 
@@ -861,6 +864,11 @@ class GameMap extends React.Component {
     this.setState({...initialState()})
     this.setState({health: -1000})
   }
+
+  handleFog = () => {
+    if (this.state.fog===1) {this.setState({fog: 0})}
+    else {this.setState({fog: 1})}
+  }
   
   heroPos = (i) => {
     
@@ -880,14 +888,12 @@ class GameMap extends React.Component {
     else if(i===this.state.heroPos && this.state.health >0 && this.state.weapon===4){        
         return `url(${trident_hand}),url(${heroImg}),url(${this.state.floor})`   
       }
+   
+    else if(!( i===this.state.heroPos-30-3 || i===this.state.heroPos-30-2 || i===this.state.heroPos-30-1 || i===this.state.heroPos-30 || i===this.state.heroPos-30+1 || i===this.state.heroPos-30+2 || i===this.state.heroPos-30+3 || i===this.state.heroPos-3 || i===this.state.heroPos-2 || i===this.state.heroPos-1 || i===this.state.heroPos+1 || i===this.state.heroPos+2 || i===this.state.heroPos+3 || i===this.state.heroPos+30-3 || i===this.state.heroPos+30-2 || i===this.state.heroPos+30-1 || i===this.state.heroPos+30 || i===this.state.heroPos+30+1 || i===this.state.heroPos+30+2 || i===this.state.heroPos+30+3 || i===this.state.heroPos-60-1 || i===this.state.heroPos-60 || i===this.state.heroPos-60+1 || i===this.state.heroPos+60-1 || i===this.state.heroPos+60 || i===this.state.heroPos+60+1) && this.state.fog===1  ){
+        return `url(${fog})`
     
-
-    // If Health reaches 0 the Hero Dies 
-    else if(i===this.state.heroPos && this.state.health <=0){
-      this.setState({...initialState()})
-      return `url(${deadhero}),url(${this.state.floor})`
-    }
-
+  }
+    
     else if (this.state.boardstate[i]===1) return `url(${wallH})` 
     else if (this.state.boardstate[i]===2) return `url(${wallV})` 
     else if (this.state.boardstate[i]===3) return `url(${ULCorner})`
@@ -1189,7 +1195,7 @@ class GameMap extends React.Component {
           let honorpoints = this.state.honorpoints;
           let count = this.state.count
           this.setState({count: count-=1})
-          this.setState({health: this.state.health-genAttack(this.state.dungeon)*50})
+          this.setState({health: this.state.health-genAttack(this.state.dungeon)*70})
           
               if(this.state.count===0){
                 boardArray04[this.state.heroPos+1]=0
@@ -1200,7 +1206,7 @@ class GameMap extends React.Component {
           let honorpoints = this.state.honorpoints;    
           let count = this.state.count    
           this.setState({count: count-=1})          
-          this.setState({health: this.state.health-genAttack(this.state.dungeon)*50})
+          this.setState({health: this.state.health-genAttack(this.state.dungeon)*70})
           
               if(this.state.count===0){
                 boardArray04[this.state.heroPos-1]=0
@@ -1211,7 +1217,7 @@ class GameMap extends React.Component {
           let honorpoints = this.state.honorpoints
           let count = this.state.count
           this.setState({count: count-=1})
-          this.setState({health: this.state.health-genAttack(this.state.dungeon)*50})
+          this.setState({health: this.state.health-genAttack(this.state.dungeon)*70})
           
               if(this.state.count===0){
                 boardArray04[this.state.heroPos+30]=0
@@ -1222,7 +1228,7 @@ class GameMap extends React.Component {
           let honorpoints = this.state.honorpoints       
           let count = this.state.count
           this.setState({count: count-=1})
-          this.setState({health: this.state.health-genAttack(this.state.dungeon)*50})
+          this.setState({health: this.state.health-genAttack(this.state.dungeon)*70})
           
               if(this.state.count===0){
                 boardArray04[this.state.heroPos-30]=0
@@ -1269,7 +1275,8 @@ class GameMap extends React.Component {
               })
             }
           </div>
-              <h3 className="h3title">DUNGEON: {this.state.dungeon} {this.state.dungeontitle} <br /> | Health: {this.state.health} | Honor Points: +{this.state.honorpoints} | Gold: + {this.state.gold} | Weapon: {this.state.weapontype} | Hero Position: {this.state.heroPos} | Count: {this.state.count}</h3>
+              
+              <h3 className="h3title">DUNGEON: {this.state.dungeon} {this.state.dungeontitle}<button className="btn btn-danger btn-xs" onClick={this.handleFog}>TOGGLE FOG OF WAR</button> <br /> | Health: {this.state.health} | Honor Points: +{this.state.honorpoints} | Gold: + {this.state.gold} | Weapon: {this.state.weapontype} | Hero Position: {this.state.heroPos} | Count: {this.state.count}</h3>
       </div>)
     }
     else if (this.state.health >0 && this.state.boss===0){
