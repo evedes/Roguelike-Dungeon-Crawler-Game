@@ -10,6 +10,19 @@
     border: 0;
 }
 
+.menumap{
+    margin: 0 auto;
+    margin-top: 35px;
+    margin-right: 20px;
+    display: inline-block;
+    border: 6px solid black;
+    width: 912px;
+    height: 612px;
+    background-color: #222;
+    background-image: url('./img/wallbackground.png');
+   
+}
+
 .gamemap{
     box-sizing: border-box;
     border-radius: 4px;
@@ -41,11 +54,18 @@
 
 /* FONT DEF */
 
+.h2headertitle{
+    font-family: 'Butcherman', sans-serif;
+    font-size: 50px;
+    text-shadow: 3px 3px black;
+    color: red;
+}
+
 .h2title{
     margin: 35px 10px 20px 10px;
     font-family: 'Roboto Condensed', sans-serif;
     font-size: 28px;
-    background-color: #333;
+    background-color: #222;
     color: red;
 }
 
@@ -53,13 +73,18 @@
     font-family: 'Roboto Condensed', sans-serif;
     font-size: 18px;
     color: yellow;
+    text-shadow: 2px 2px black;
 }
 
 .h5title{
-    padding: 10px;
+    margin: 20px;
+    padding: 20px;
     font-family: 'Roboto Condensed', sans-serif;
-    font-size: 15px;
-    color: yellow;
+    text-shadow: 1px 1px black;
+    font-size: 20px;
+    color:yellow;
+    text-shadow: 1px 1px black;
+    background-color: rgba(0,0,0,0.7)
 
 }
 

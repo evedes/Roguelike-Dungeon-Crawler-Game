@@ -6,9 +6,14 @@ import React from 'react'
 import keydown from 'react-keydown'
 import './GameMap.css'
 
-// Images Import
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// Imports of Images needed for the Game
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 import heroImg from './img/hero.png'
 import deadhero from './img/deadhero.png'
+import necromancer from './img/necromancer.png'
+
 import floor01 from './img/floor01.png'
 import floor02 from './img/floor02.png'
 import floor03 from './img/floor03.png'
@@ -21,23 +26,23 @@ import LLCorner from './img/lower_left_corner.png'
 import ULCorner from './img/upper_left_corner.png'
 import URCorner from './img/upper_right_corner.png'
 import portal from './img/portal.png'
+
 import sword from './img/sword.png'
 import sword_hand from './img/sword_hand.png'
+import axe from './img/axe.png'
 import axe_hand from './img/axe_hand.png'
+import trident from './img/trident.png'
 import trident_hand from './img/trident_hand.png'
 
-import necromancer from './img/necromancer.png'
+
 import healthpotion from './img/healthpotion.png'
 import gold from './img/gold.png'
-import goldreduced from './img/goldreduced.png'
+
 import monster01 from './img/monster01.png'
 import monster02 from './img/monster02.png'
 import monster03 from './img/monster03.png'
 import monster04 from './img/monster04.png'
 
-
-// System Global Vars
-let count = 0
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Auxiliary Functions
@@ -46,9 +51,13 @@ let count = 0
 // Random Position Generator
 
 let genPos = () =>{
-  let x = Number(Math.floor(Math.random()*599));
-  return x;
+  return Number(Math.floor(Math.random()*599));
   }
+
+let genAttack = (dungeon)=>{
+  return Number((dungeon)*Math.floor(Math.random()*5)+1)
+}
+
 
 
 
@@ -239,54 +248,47 @@ let boardArray01 = []
     boardArray01[556]=2
     boardArray01[565]=2
 
-    
-    // Fulfill the board with Gold Coins   
-
-    for (let x = 0 ; x < 10; x++){
-      let genGold = genPos();
-      if (boardArray01[genGold]===0){
-        boardArray01[genGold]=-1
-      }
-      else x--
-    }
-
-    // Fulfill the board with Health Bottles
-    for (let x = 0 ; x < 5; x++){
-      let genHealth = genPos();
-      if (boardArray01[genHealth]===0){
-        boardArray01[genHealth]=-2
-      }
-      else x--
-    }
-
-    // Fulfill the board with Sword 
-    for (let x = 0 ; x < 2; x++){
-      let genSword = genPos();
-      if (boardArray01[genSword]===0){
-        boardArray01[genSword]=-15
-      }
-      else x--
-    }
-
-    // Fulfill the game with monsters01
-    for (let x = 0 ; x < 15; x++){
-      let genMonster01= genPos();
-      if (boardArray01[genMonster01]===0){
-        boardArray01[genMonster01]=15
-      }
-      else x--
-    }
-
-
-
+    let genMobs1 = ()=>{
+          // Fulfill the board with Gold Coins 
+          for (let x = 0 ; x < 15 ; x++){
+              let genGold = genPos();
+              if (boardArray01[genGold]===0){
+                  boardArray01[genGold]=-1
+              }
+              else x--;
+          }
+      
+          // Fulfill the board with Health Bottles
+          for (let x = 0 ; x < 10 ; x++){
+              let genHealth = genPos();
+              if (boardArray01[genHealth]===0){
+                boardArray01[genHealth]=-2
+              }
+              else x--;
+          }
+      
+          // Fulfill the board with Sword 
+          for (let x = 0 ; x < 3 ; x++){
+              let genSword = genPos();
+              if (boardArray01[genSword]===0){
+                  boardArray01[genSword]=-15
+              }
+              else x--;
+          }
+      
+          // Fulfill the game with monsters01
+          for (let x = 0 ; x < 10; x++){
+              let genMonster01= genPos();
+              if (boardArray01[genMonster01]===0){
+                  boardArray01[genMonster01]=15
+              }
+              else x--;
+          }
+        }
+      
 
 
-
-
-
-
-
-//
+    //
   
 // MAP 02
 let boardArray02 = []
@@ -450,28 +452,44 @@ let boardArray02 = []
     boardArray02[526]=2
     boardArray02[556]=2
 
-    // Fulfill the game with gold
-    for (let x = 0 ; x < 10; x++){
-      let genGold = genPos();
-      if (boardArray02[genGold]===0){
-        boardArray02[genGold]=-1;
-      }
-    }
 
-    // Fulfill the game with health bottles
-    for (let x = 0 ; x < 10; x++){
-      let genHealth = genPos();
-      if (boardArray02[genHealth]===0){
-        boardArray02[genHealth]=-2;
-      }
-    }
 
-    // Fulfill the game with monsters02
-    for (let x = 0 ; x < 15; x++){
-      let genMonster02= genPos();
-      if (boardArray02[genMonster02]===0){
-        boardArray02[genMonster02]=16;
-      }
+    let genMobs2 = () =>{
+        // Fulfill the game with gold
+        for (let x = 0 ; x < 10 ; x++){
+            let genGold = genPos();
+            if (boardArray02[genGold]===0){
+                boardArray02[genGold]=-1
+            }
+            else x--;
+        }
+
+        // Fulfill the game with health bottles
+        for (let x = 0 ; x < 10 ; x++){
+            let genHealth = genPos();
+            if (boardArray02[genHealth]===0){
+                boardArray02[genHealth]=-2
+            }
+            else x--;
+        }
+
+        // Fulfill the board with Axe 
+        for (let x = 0 ; x < 2 ; x++){
+            let genAxe = genPos();
+            if (boardArray02[genAxe]===0){
+                boardArray02[genAxe]=-16
+            }
+            else x--;
+        }
+
+        // Fulfill the game with monsters02
+        for (let x = 0 ; x < 12 ; x++){
+            let genMonster02= genPos();
+            if (boardArray02[genMonster02]===0){
+                boardArray02[genMonster02]=16
+            }
+            else x--;
+        }
     }
 
 
@@ -615,30 +633,35 @@ let boardArray03 = []
       boardArray03[545]=2
       boardArray03[559]=2
 
-      // Fulfill the game with gold
-      for (let x = 0 ; x < 10; x++){
-        let genGold = genPos();
-        if (boardArray03[genGold]===0){
-          boardArray03[genGold]=-1;
-        }
-      }
+      let genMobs3  = () => {
+          // Fulfill the game with gold
+          for (let x = 0 ; x < 10 ; x++){
+              let genGold = genPos();
+              if (boardArray03[genGold]===0){
+                  boardArray03[genGold]=-1;
+              }
+              else x--
+          }
 
-      // Fulfill the game with health bottles
-      for (let x = 0 ; x < 10; x++){
-        let genHealth = genPos();
-        if (boardArray03[genHealth]===0){
-          boardArray03[genHealth]=-2;
-        }
-      }
+          // Fulfill the game with health bottles
+          for (let x = 0 ; x < 10; x++){
+              let genHealth = genPos();
+              if (boardArray03[genHealth]===0){
+                  boardArray03[genHealth]=-2;
+              }
+              else x--
+          }
 
-    // Fulfill the game with monsters03
-    for (let x = 0 ; x < 15; x++){
-      let genMonster03= genPos();
-      if (boardArray03[genMonster03]===0){
-        boardArray03[genMonster03]=17;
+
+          // Fulfill the game with monsters03
+          for (let x = 0 ; x < 12; x++){
+              let genMonster03 = genPos();
+              if (boardArray03[genMonster03]===0){
+                  boardArray03[genMonster03]=17;
+              }
+              else x--
+          }
       }
-    }
-  
 //
 
 //MAP 04
@@ -744,29 +767,46 @@ let boardArray04 = []
       boardArray04[307]=0
       boardArray04[514]=0
 
-      for (let x = 0 ; x < 10; x++){
-        let genGold = genPos();
-        if (boardArray04[genGold]===0){
-          boardArray04[genGold]=-1;
-        }
-      }
+      let genMobs4 = () =>{
+      // Fulfill the board with gold
+          for (let x = 0 ; x < 10; x++){
+            let genGold = genPos();
+            if (boardArray04[genGold]===0){
+              boardArray04[genGold]=-1;
+            }
+            else x--;
+          }
 
-      for (let x = 0 ; x < 10; x++){
-        let genHealth = genPos();
-        if (boardArray04[genHealth]===0){
-          boardArray04[genHealth]=-2;
-        }
-      }
+          //Fulfill the board with health bottles
+          for (let x = 0 ; x < 10; x++){
+            let genHealth = genPos();
+            if (boardArray04[genHealth]===0){
+              boardArray04[genHealth]=-2;
+            }
+            else x--;
+          }
 
-      // Fulfill the game with monsters04
-    for (let x = 0 ; x < 15; x++){
-      let genMonster04= genPos();
-      if (boardArray04[genMonster04]===0){
-        boardArray04[genMonster04]=18;
+          // Fulfill the board with Trident 
+          for (let x = 0 ; x < 2; x++){
+              let genTrident = genPos();
+              if (boardArray04[genTrident]===0){
+                  boardArray04[genTrident]=-17
+              }
+              else x--;
+          }
+
+          // Fulfill the game with monsters04
+          for (let x = 0 ; x < 12; x++){
+              let genMonster04 = genPos();
+              if (boardArray04[genMonster04]===0){
+                  boardArray04[genMonster04]=18;
+              }
+              else x--;
+          }
       }
-    }
 
 //
+
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Set Initial State 
@@ -776,16 +816,21 @@ function initialState() {
   return(
   {
     boardstate: boardArray01,
-    lines: 20,
-    cols: 30,
-    cells: 600, 
+    mobs1: genMobs1(),
+    mobs2: genMobs2(),
+    mobs3: genMobs3(),
+    mobs4: genMobs4(),
+    count: 5,
     heroPos: 541,
     floor: floor01,
     dungeon: 1,
+    dungeontitle: 'The Skeleton Army',
     gold: 0,
-    health: 20,
-    weapon: 0,
-    weapontype: 'fists(+3)'
+    health: -1000,
+    weapon: 1,
+    weapontype: 'fists(+3)',
+    boss: 1,
+    honorpoints: 0,
   })
 }
 
@@ -806,25 +851,36 @@ class GameMap extends React.Component {
   }
 
 
+  handleStart = () =>{
+    this.setState({...initialState()})
+    this.setState({health: 20})
+  }
+
+
+  handleMainMenu = () => {
+    this.setState({...initialState()})
+    this.setState({health: -1000})
+  }
+  
   heroPos = (i) => {
     
     // Hero Position while Alive
-    if(i===this.state.heroPos && this.state.health >0){
-      if (this.state.weapon===0){
+    if(i===this.state.heroPos && this.state.health >0 && this.state.weapon===1){
         return `url(${heroImg}),url(${this.state.floor})`   
       }
-      if (this.state.weapon===1){
-        return `url(${sword_hand}),url(${heroImg}),url(${this.state.floor})`   
-        
-      }
-      if (this.state.weapon===3){
-        return `url(${axe_hand}),url(${heroImg}),url(${this.state.floor})`   
-      }
-      if (this.state.weapon===4){
-        return `url(${trident_hand}),url(${heroImg}),url(${this.state.floor})`   
+
+    else if(i===this.state.heroPos && this.state.health >0 && this.state.weapon===2){   
+        return `url(${sword_hand}),url(${heroImg}),url(${this.state.floor})`    
       }
 
-    }
+    else if(i===this.state.heroPos && this.state.health >0 && this.state.weapon===3){      
+        return `url(${axe_hand}),url(${heroImg}),url(${this.state.floor})`   
+      }
+
+    else if(i===this.state.heroPos && this.state.health >0 && this.state.weapon===4){        
+        return `url(${trident_hand}),url(${heroImg}),url(${this.state.floor})`   
+      }
+    
 
     // If Health reaches 0 the Hero Dies 
     else if(i===this.state.heroPos && this.state.health <=0){
@@ -849,268 +905,424 @@ class GameMap extends React.Component {
     else if (this.state.boardstate[i]===-100) return `url(${deadhero}),url(${this.state.floor})`
     else if (this.state.boardstate[i]===0) return `url(${this.state.floor})`
     else if (this.state.boardstate[i]===-15) return `url(${sword}),url(${this.state.floor})`
+    else if (this.state.boardstate[i]===-16) return `url(${axe}),url(${this.state.floor})`
+    else if (this.state.boardstate[i]===-17) return `url(${trident}),url(${this.state.floor})`
+    
 }
 
   heroMove = (e) =>{
 
     // PORTAL PASSAGES
-    if (e.key === 'ArrowRight' && this.state.heroPos === 543 && this.state.boardstate[this.state.heroPos+1]===10) {
-      this.setState({boardstate: boardArray04, floor: floor04,  heroPos: 31, dungeon:4})
-    }
-    if (e.key === 'ArrowLeft' && this.state.heroPos ===311 && this.state.boardstate[this.state.heroPos-1]===10) {
-      this.setState({boardstate: boardArray03, floor: floor03, heroPos: 310, dungeon:3})
-    }
-    if (e.key === 'ArrowRight' && this.state.heroPos===208 && this.state.boardstate[this.state.heroPos+1]===10) {
-      this.setState({boardstate: boardArray02, floor: floor02, heroPos: 180, dungeon:2})
-    }
+      if (e.key === 'ArrowRight' && this.state.heroPos === 543 && this.state.boardstate[this.state.heroPos+1]===10) {
+        this.setState({boardstate: boardArray04, floor: floor04,  heroPos: 31, dungeon:4, dungeontitle: 'The Infernal Bats'})
+      }
+      if (e.key === 'ArrowLeft' && this.state.heroPos ===311 && this.state.boardstate[this.state.heroPos-1]===10) {
+        this.setState({boardstate: boardArray03, floor: floor03, heroPos: 310, dungeon:3, dungeontitle:'Tutankhamun Mummies'})
+      }
+      if (e.key === 'ArrowRight' && this.state.heroPos===208 && this.state.boardstate[this.state.heroPos+1]===10) {
+        this.setState({boardstate: boardArray02, floor: floor02, heroPos: 180, dungeon:2, dungeontitle: 'The Vampire Legion'})
+      }
+    //
 
     //GOLD COLLECT
 
-    if(e.key && this.state.boardstate[this.state.heroPos]===-1){
-      this.setState({gold: this.state.gold+this.state.dungeon*10})
-      if(this.state.dungeon===1){boardArray01[this.state.heroPos]=0}
-      else if(this.state.dungeon===2){boardArray02[this.state.heroPos]=0}
-      else if(this.state.dungeon===3){boardArray03[this.state.heroPos]=0}
-      else boardArray04[this.state.heroPos]=0
-    }
-
-    //HEALTH COLLECT
-
-    if(e.key && this.state.boardstate[this.state.heroPos]===-2){
-      this.setState({health: this.state.health+this.state.dungeon*10})
+      if(e.key && this.state.boardstate[this.state.heroPos]===-1){
+        this.setState({gold: this.state.gold+this.state.dungeon*10})
         if(this.state.dungeon===1){boardArray01[this.state.heroPos]=0}
         else if(this.state.dungeon===2){boardArray02[this.state.heroPos]=0}
         else if(this.state.dungeon===3){boardArray03[this.state.heroPos]=0}
         else boardArray04[this.state.heroPos]=0
-    }
+      }
+    //
+
+    //HEALTH COLLECT
+
+      if(e.key && this.state.boardstate[this.state.heroPos]===-2){
+        this.setState({health: this.state.health+this.state.dungeon*10})
+          if(this.state.dungeon===1){boardArray01[this.state.heroPos]=0}
+          else if(this.state.dungeon===2){boardArray02[this.state.heroPos]=0}
+          else if(this.state.dungeon===3){boardArray03[this.state.heroPos]=0}
+          else boardArray04[this.state.heroPos]=0
+      }
+    //
+
+    //WEAPON COLLECT
+
+        //SWORD
+        if(e.key && this.state.boardstate[this.state.heroPos]===-15){
+          this.setState({weapon: 2, weapontype: 'sword(+8)', count: 4})
+            if(this.state.dungeon===1){boardArray01[this.state.heroPos]=0}
+            else if(this.state.dungeon===2){boardArray02[this.state.heroPos]=0}
+            else if(this.state.dungeon===3){boardArray03[this.state.heroPos]=0}
+            else boardArray04[this.state.heroPos]=0
+        }
+
+        //AXE
+        if(e.key && this.state.boardstate[this.state.heroPos]===-16){
+          this.setState({weapon: 3, weapontype: 'axe(+16)', count: 3})
+            if(this.state.dungeon===1){boardArray01[this.state.heroPos]=0}
+            else if(this.state.dungeon===2){boardArray02[this.state.heroPos]=0}
+            else if(this.state.dungeon===3){boardArray03[this.state.heroPos]=0}
+            else boardArray04[this.state.heroPos]=0
+        }        
+        
+        //TRIDENT
+        if(e.key && this.state.boardstate[this.state.heroPos]===-17){
+          this.setState({weapon: 4, weapontype: 'trident(+32)', count: 2})
+            if(this.state.dungeon===1){boardArray01[this.state.heroPos]=0}
+            else if(this.state.dungeon===2){boardArray02[this.state.heroPos]=0}
+            else if(this.state.dungeon===3){boardArray03[this.state.heroPos]=0}
+            else boardArray04[this.state.heroPos]=0
+        }
+    //
 
     //MONSTER TYPE 01 FIGHT
+        // Monster Image === 15
+        // boardArray01
+        // Kill -> +100 Gold
         
         if(e.key === 'ArrowRight' && this.state.boardstate[this.state.heroPos+1]===15){
-          count+=1
-          let attack = Number(this.state.weapon*Math.floor(Math.random()*5)+1)
-          this.setState({health: this.state.health-attack})
+          let honorpoints =  this.state.honorpoints
+          let count = this.state.count;
+          this.setState({count: count-=1})
+          this.setState({health: this.state.health-genAttack(this.state.dungeon)})
           
-              if(count===2){
+              if(this.state.count===0){
                 boardArray01[this.state.heroPos+1]=0
-                count=0
+                this.setState({count: 6-this.state.weapon, gold: this.state.gold+100, honorpoints: honorpoints+=10})
               }
         }
         if(e.key === 'ArrowLeft' && this.state.boardstate[this.state.heroPos-1]===15){
-          count+=1
-          let attack = Number(this.state.weapon*Math.floor(Math.random()*5)+1)
-          this.setState({health: this.state.health-attack})
+          let honorpoints = this.state.honorpoints
+          let count = this.state.count;
+          this.setState({count: count-=1})          
+          this.setState({health: this.state.health-genAttack(this.state.dungeon)})
           
-              if(count===2){
+              if(this.state.count===0){
                 boardArray01[this.state.heroPos-1]=0
-                count=0
+                this.setState({count: 6-this.state.weapon, gold: this.state.gold+100, honorpoints: honorpoints+=10})
               }
         }
         if(e.key === 'ArrowDown' && this.state.boardstate[this.state.heroPos+30]===15){
-          count+=1
-          let attack = Number(this.state.weapon*Math.floor(Math.random()*5)+1)
-          this.setState({health: this.state.health-attack})
+          let honorpoints =  this.state.honorpoints
+          let count = this.state.count;
+          this.setState({count: count-=1})
+          this.setState({health: this.state.health-genAttack(this.state.dungeon)})
           
-              if(count===2){
+              if(this.state.count===0){
                 boardArray01[this.state.heroPos+30]=0
-                count=0
+                this.setState({count: 6-this.state.weapon, gold: this.state.gold+100, honorpoints: honorpoints+=10})
               }
         }
         if(e.key === 'ArrowUp' && this.state.boardstate[this.state.heroPos-30]===15){
-          count+=1
-          let attack = Number(this.state.weapon*Math.floor(Math.random()*5)+1)
-          this.setState({health: this.state.health-attack})
+          let honorpoints= this.state.honorpoints
+          let count = this.state.count;
+          this.setState({count: count-=1})
+          this.setState({health: this.state.health-genAttack(this.state.dungeon)})
           
-              if(count===2){
+              if(this.state.count===0){
                 boardArray01[this.state.heroPos-30]=0
-                count=0
+                this.setState({count: 6-this.state.weapon, gold: this.state.gold+100, honorpoints: honorpoints+=10})
               }
         }
-    //        
-
+    //   
+    
     //MONSTER TYPE 02 FIGHT
-
-        if(e.key === 'ArrowRight' && this.state.boardstate[this.state.heroPos+1]===16){
-          count+=1
-          let attack = Number(this.state.weapon*Math.floor(Math.random()*5)+1)
-          this.setState({health: this.state.health-attack})
+        // Monster Image === 16
+        // boardArray02
+        // Kill -> +200 Gold
           
-              if(count===2){
+        if(e.key === 'ArrowRight' && this.state.boardstate[this.state.heroPos+1]===16){
+          let honorpoints = this.state.honorpoints
+          let count = this.state.count;
+          this.setState({count: count-=1})
+          this.setState({health: this.state.health-genAttack(this.state.dungeon)})
+          
+              if(this.state.count===0){
                 boardArray02[this.state.heroPos+1]=0
-                count=0
+                this.setState({count: 6-this.state.weapon, gold: this.state.gold+200, honorpoints: honorpoints+=20})
               }
         }
         if(e.key === 'ArrowLeft' && this.state.boardstate[this.state.heroPos-1]===16){
-          count+=1
-          let attack = Number(this.state.weapon*Math.floor(Math.random()*5)+1)
-          this.setState({health: this.state.health-attack})
+          let honorpoints = this.state.honorpoints
+          let count = this.state.count;
+          this.setState({count: count-=1})          
+          this.setState({health: this.state.health-genAttack(this.state.dungeon)})
           
-              if(count===2){
+              if(this.state.count===0){
                 boardArray02[this.state.heroPos-1]=0
-                count=0
+                this.setState({count: 6-this.state.weapon,gold: this.state.gold+200, honorpoints: honorpoints+=20})
               }
         }
         if(e.key === 'ArrowDown' && this.state.boardstate[this.state.heroPos+30]===16){
-          count+=1
-          let attack = Number(this.state.weapon*Math.floor(Math.random()*5)+1)
-          this.setState({health: this.state.health-attack})
+          let honorpoints = this.state.honorpoints
+          let count = this.state.count;
+          this.setState({count: count-=1})
+          this.setState({health: this.state.health-genAttack(this.state.dungeon)})
           
-              if(count===2){
+              if(this.state.count===0){
                 boardArray02[this.state.heroPos+30]=0
-                count=0
+                this.setState({count: 6-this.state.weapon,gold: this.state.gold+200, honorpoints: honorpoints+=20})
               }
         }
         if(e.key === 'ArrowUp' && this.state.boardstate[this.state.heroPos-30]===16){
-          count+=1
-          let attack = Number(this.state.weapon*Math.floor(Math.random()*5)+1)
-          this.setState({health: this.state.health-attack})
+          let honorpoints = this.state.honorpoints
+          let count = this.state.count;
+          this.setState({count: count-=1})
+          this.setState({health: this.state.health-genAttack(this.state.dungeon)})
           
-              if(count===2){
+              if(this.state.count===0){
                 boardArray02[this.state.heroPos-30]=0
-                count=0
+                this.setState({count: 6-this.state.weapon,gold: this.state.gold+200, honorpoints: honorpoints+=20})
               }
         }
-    //
-    
+    //   
+
     //MONSTER TYPE 03 FIGHT
+        // Monster Image === 17
+        // boardArray03
+        // Kill -> +300 Gold
+          
+        if(e.key === 'ArrowRight' && this.state.boardstate[this.state.heroPos+1]===17){
+          let honorpoints = this.state.honorpoints
+          let count = this.state.count;
+          this.setState({count: count-=1})
+          this.setState({health: this.state.health-genAttack(this.state.dungeon)})
+          
+              if(this.state.count===0){
+                boardArray03[this.state.heroPos+1]=0
+                this.setState({count: 6-this.state.weapon, gold: this.state.gold+300, honorpoints: honorpoints+=30})
+              }
+        }
+        if(e.key === 'ArrowLeft' && this.state.boardstate[this.state.heroPos-1]===17){
+          let honorpoints = this.state.honorpoints
+          let count = this.state.count;
+          this.setState({count: count-=1})          
+          this.setState({health: this.state.health-genAttack(this.state.dungeon)})
+          
+              if(this.state.count===0){
+                boardArray03[this.state.heroPos-1]=0
+                this.setState({count: 6-this.state.weapon,gold: this.state.gold+300, honorpoints: honorpoints+=30})
+              }
+        }
+        if(e.key === 'ArrowDown' && this.state.boardstate[this.state.heroPos+30]===17){
+          let honorpoints = this.state.honorpoints
+          let count = this.state.count;
+          this.setState({count: count-=1})
+          this.setState({health: this.state.health-genAttack(this.state.dungeon)})
+          
+              if(this.state.count===0){
+                boardArray03[this.state.heroPos+30]=0
+                this.setState({count: 6-this.state.weapon,gold: this.state.gold+300, honorpoints: honorpoints+=30})
+              }
+        }
+        if(e.key === 'ArrowUp' && this.state.boardstate[this.state.heroPos-30]===17){
+          let honorpoints = this.state.honorpoints
+          let count = this.state.count;
+          this.setState({count: count-=1})
+          this.setState({health: this.state.health-genAttack(this.state.dungeon)})
+          
+              if(this.state.count===0){
+                boardArray03[this.state.heroPos-30]=0
+                this.setState({count: 6-this.state.weapon,gold: this.state.gold+300, honorpoints: honorpoints+=30})
+              }
+        }
+    //  
 
-      if(e.key === 'ArrowRight' && this.state.boardstate[this.state.heroPos+1]===17){
-        count+=1
-        let attack = Number(this.state.weapon*Math.floor(Math.random()*5)+1)
-        this.setState({health: this.state.health-attack})
-        
-            if(count===2){
-              boardArray03[this.state.heroPos+1]=0
-              count=0
-            }
-      }
-      if(e.key === 'ArrowLeft' && this.state.boardstate[this.state.heroPos-1]===17){
-        count+=1
-        let attack = Number(this.state.weapon*Math.floor(Math.random()*5)+1)
-        this.setState({health: this.state.health-attack})
-        
-            if(count===2){
-              boardArray03[this.state.heroPos-1]=0
-              count=0
-            }
-      }
-      if(e.key === 'ArrowDown' && this.state.boardstate[this.state.heroPos+30]===17){
-        count+=1
-        let attack = Number(this.state.weapon*Math.floor(Math.random()*5)+1)
-        this.setState({health: this.state.health-attack})
-        
-            if(count===2){
-              boardArray03[this.state.heroPos+30]=0
-              count=0
-            }
-      }
-      if(e.key === 'ArrowUp' && this.state.boardstate[this.state.heroPos-30]===17){
-        count+=1
-        let attack = Number(this.state.weapon*Math.floor(Math.random()*5)+1)
-        this.setState({health: this.state.health-attack})
-        
-            if(count===2){
-              boardArray03[this.state.heroPos-30]=0
-              count=0
-            }
-      }
-    //
-    
     //MONSTER TYPE 04 FIGHT
+        // Monster Image === 18
+        // boardArray04
+        // Kill -> +400 Gold
+          
+        if(e.key === 'ArrowRight' && this.state.boardstate[this.state.heroPos+1]===18){
+          let honorpoints = this.state.honorpoints;
+          let count = this.state.count;
+          this.setState({count: count-=1})
+          this.setState({health: this.state.health-genAttack(this.state.dungeon)})
+          
+              if(this.state.count===0){
+                boardArray04[this.state.heroPos+1]=0
+                this.setState({count: 6-this.state.weapon, gold: this.state.gold+400, honorpoints: honorpoints+=40})
+              }
+        }
+        if(e.key === 'ArrowLeft' && this.state.boardstate[this.state.heroPos-1]===18){
+          let honorpoints = this.state.honorpoints
+          let count = this.state.count;
+          this.setState({count: count-=1})          
+          this.setState({health: this.state.health-genAttack(this.state.dungeon)})
+          
+              if(this.state.count===0){
+                boardArray04[this.state.heroPos-1]=0
+                this.setState({count: 6-this.state.weapon,gold: this.state.gold+400, honorpoints: honorpoints+=40})
+              }
+        }
+        if(e.key === 'ArrowDown' && this.state.boardstate[this.state.heroPos+30]===18){
+          let honorpoints = this.state.honorpoints
+          let count = this.state.count;
+          this.setState({count: count-=1})
+          this.setState({health: this.state.health-genAttack(this.state.dungeon)})
+          
+              if(this.state.count===0){
+                boardArray04[this.state.heroPos+30]=0
+                this.setState({count: 6-this.state.weapon,gold: this.state.gold+400, honorpoints: honorpoints+=40})
+              }
+        }
+        if(e.key === 'ArrowUp' && this.state.boardstate[this.state.heroPos-30]===18){
+          let honorpoints = this.state.honorpoints
+          let count = this.state.count;
+          this.setState({count: count-=1})
+          this.setState({health: this.state.health-genAttack(this.state.dungeon)})
+          
+              if(this.state.count===0){
+                boardArray04[this.state.heroPos-30]=0
+                this.setState({count: 6-this.state.weapon,gold: this.state.gold+400, honorpoints: honorpoints+=40})
+              }
+        }
+    //  
 
-      if(e.key === 'ArrowRight' && this.state.boardstate[this.state.heroPos+1]===18){
-        count+=1
-        let attack = Number(this.state.weapon*Math.floor(Math.random()*5)+1)
-        this.setState({health: this.state.health-attack})
-        
-            if(count===2){
-              boardArray04[this.state.heroPos+1]=0
-              count=0
-            }
-      }
-      if(e.key === 'ArrowLeft' && this.state.boardstate[this.state.heroPos-1]===18){
-        count+=1
-        let attack = Number(this.state.weapon*Math.floor(Math.random()*5)+1)
-        this.setState({health: this.state.health-attack})
-        
-            if(count===2){
-              boardArray04[this.state.heroPos-1]=0
-              count=0
-            }
-      }
-      if(e.key === 'ArrowDown' && this.state.boardstate[this.state.heroPos+30]===18){
-        count+=1
-        let attack = Number(this.state.weapon*Math.floor(Math.random()*5)+1)
-        this.setState({health: this.state.health-attack})
-        
-            if(count===2){
-              boardArray04[this.state.heroPos+30]=0
-              count=0
-            }
-      }
-      if(e.key === 'ArrowUp' && this.state.boardstate[this.state.heroPos-30]===18){
-        count+=1
-        let attack = Number(this.state.weapon*Math.floor(Math.random()*5)+1)
-        this.setState({health: this.state.health-attack})
-        
-            if(count===2){
-              boardArray04[this.state.heroPos-30]=0
-              count=0
-            }
-      }
-    //
+    //MONSTER - BOSS NECROMANCER
+        // Monster Image === 20
+        // boardArray04
+        // Kill -> +1000 Gold
+          
+        if(e.key === 'ArrowRight' && this.state.boardstate[this.state.heroPos+1]===20){
+          let honorpoints = this.state.honorpoints;
+          let count = this.state.count
+          this.setState({count: count-=1})
+          this.setState({health: this.state.health-genAttack(this.state.dungeon)*50})
+          
+              if(this.state.count===0){
+                boardArray04[this.state.heroPos+1]=0
+                this.setState({count: 6-this.state.weapon, gold: this.state.gold+1000, boss:0, honorpoints: honorpoints+=1000})
+              }
+        }
+        if(e.key === 'ArrowLeft' && this.state.boardstate[this.state.heroPos-1]===20){
+          let honorpoints = this.state.honorpoints;    
+          let count = this.state.count    
+          this.setState({count: count-=1})          
+          this.setState({health: this.state.health-genAttack(this.state.dungeon)*50})
+          
+              if(this.state.count===0){
+                boardArray04[this.state.heroPos-1]=0
+                this.setState({count: 6-this.state.weapon,gold: this.state.gold+1000, boss:0, honorpoints: honorpoints+=1000 })
+              }
+        }
+        if(e.key === 'ArrowDown' && this.state.boardstate[this.state.heroPos+30]===20){
+          let honorpoints = this.state.honorpoints
+          let count = this.state.count
+          this.setState({count: count-=1})
+          this.setState({health: this.state.health-genAttack(this.state.dungeon)*50})
+          
+              if(this.state.count===0){
+                boardArray04[this.state.heroPos+30]=0
+                this.setState({count: 6-this.state.weapon,gold: this.state.gold+1000, boss:0, honorpoints: honorpoints+=1000})
+              }
+        }
+        if(e.key === 'ArrowUp' && this.state.boardstate[this.state.heroPos-30]===20){
+          let honorpoints = this.state.honorpoints       
+          let count = this.state.count
+          this.setState({count: count-=1})
+          this.setState({health: this.state.health-genAttack(this.state.dungeon)*50})
+          
+              if(this.state.count===0){
+                boardArray04[this.state.heroPos-30]=0
+                this.setState({count: 6-this.state.weapon,gold: this.state.gold+1000, boss:0, honorpoints: honorpoints+=1000})
+              }
+        }
+    //  
+
+
 
     //HERO MOVES
 
-    if (e.key === 'ArrowUp' && this.state.boardstate[this.state.heroPos-30] <= 0) {
-      this.setState({heroPos: this.state.heroPos-30}) 
-    }
-    if (e.key === 'ArrowRight' && this.state.heroPos+1<=599 && this.state.boardstate[this.state.heroPos+1]<=0) {
-      this.setState({heroPos: this.state.heroPos+1})
-    }
-    if (e.key === 'ArrowLeft' && this.state.heroPos-1>=0 && this.state.boardstate[this.state.heroPos-1]<=0) {
-      this.setState({heroPos: this.state.heroPos-1})
-    }
-    if (e.key === 'ArrowDown' && this.state.heroPos+30<=599 && this.state.boardstate[this.state.heroPos+30]<=0) {
-      this.setState({heroPos: this.state.heroPos+30})
-    }   
+        if (e.key === 'ArrowUp' && this.state.boardstate[this.state.heroPos-30] <= 0) {
+          this.setState({heroPos: this.state.heroPos-30}) 
+        }
+        if (e.key === 'ArrowRight' && this.state.heroPos+1<=599 && this.state.boardstate[this.state.heroPos+1]<=0) {
+          this.setState({heroPos: this.state.heroPos+1})
+        }
+        if (e.key === 'ArrowLeft' && this.state.heroPos-1>=0 && this.state.boardstate[this.state.heroPos-1]<=0) {
+          this.setState({heroPos: this.state.heroPos-1})
+        }
+        if (e.key === 'ArrowDown' && this.state.heroPos+30<=599 && this.state.boardstate[this.state.heroPos+30]<=0) {
+          this.setState({heroPos: this.state.heroPos+30})
+        }   
 
-  } // heroMove function END
- 
+         } // heroMove function END
+    //
 
- 
 
-  render(){    
-    return( 
-      <div className="maincontainer row">
-   
-          <div className="col-md-8">
-              {/* return the gaming map */}
-              <div className="gamemap">
-                {
-                  this.state.boardstate.map((cell,i)=>{
-                  return(
-                    <div style={{backgroundImage: this.heroPos(i) }} className="square" value={cell} key={i}></div>
-                  )
-                  })
-                }
-              </div>
-          </div>
+  // RENDER Function 
+  render(){ 
+    if(this.state.health>0 && this.state.boss===1){ 
+      //GAME BOARD
+      return(
       
-          <div className="col-md-4 infocol">
-            <h2 className="h2title">Game Control</h2>
-            <h3 className="h3title"><button className="btn btn-warning">RESTART</button></h3>
-            <h2 className="h2title">Story</h2>
-            <h5 className="h5title">Welcome to the realm of Lord Herald, the Necromancer! Lord Herald was once possessed by a demoniac spirit which darkened his soul and transformed his heart into a rock. You are the hero of this game and you need to save your damsel-in-distress. Lord Herald prepares to slay her and summon her soul, enchanting her dead body to praise the evil forces in order to strengthen himself and rule the world! Hurry up! Kill Herald and save your princess!</h5>
-            <h2 className="h2title">Player's Status</h2> 
-            <h3 className="h3title">DUNGEON: {this.state.dungeon}</h3>
-            <h3 className="h3title">Health: {this.state.health} | Gold: + {this.state.gold} | Weapon: {this.state.weapontype}</h3>
-            <h3 className="h3title">Hero Position: {this.state.heroPos}</h3>
+      <div className="maincontainer row">
+          {/* return the gaming map */}
+          <div className="gamemap">
+            {
+              this.state.boardstate.map((cell,i)=>{
+              return(
+                <div style={{backgroundImage: this.heroPos(i) }} className="square" value={cell} key={i}></div>
+              )
+              })
+            }
           </div>
-           
+              <h3 className="h3title">DUNGEON: {this.state.dungeon} {this.state.dungeontitle} <br /> | Health: {this.state.health} | Honor Points: +{this.state.honorpoints} | Gold: + {this.state.gold} | Weapon: {this.state.weapontype} | Hero Position: {this.state.heroPos} | Count: {this.state.count}</h3>
+      </div>)
+    }
+    else if (this.state.health >0 && this.state.boss===0){
+      return(
+      <div className="maincontainer row">
+              <div className="menumap">
+                  <h2 className="h2headertitle">ROGUELIKE DUNGEON CRAWLER GAME</h2>
+                  <h2 className="h2title">YOU WON THE GAME!!!! HURRAY!</h2>
+                  <h3 className="h3title">| Health: {this.state.health} | Honor Points: +{this.state.honorpoints} | Gold: + {this.state.gold} | Weapon: {this.state.weapontype} |</h3>
+                  <button className="btn btn-danger" onClick={this.handleMainMenu}>MAIN MENU</button>
+                  <h2 className="h2title">Finally...</h2>
+                  <h5 className="h5title">You've saved your sweet-heart's life.
+                                          Lord Herald came back to it's normal state and apologized you for his evil treats! 
+                                          You've became the hero of the kingdom and....<br />You lived with you're princess happily ever after!</h5>
+              </div>
+
       </div>
-    )
-  }
-}
+      )
+    }
+    // MAIN MENU 
+    else if (this.state.health===-1000 && this.state.boss === 1) {
+      return(
+      <div className="maincontainer row">
+              <div className="menumap">
+                  <h2 className="h2headertitle">ROGUELIKE DUNGEON CRAWLER GAME</h2>
+                  <h2 className="h2title">Story</h2>
+                  <h5 className="h5title">Welcome to the realm of Lord Herald, the Necromancer!<br /> Lord Herald was once possessed by a demoniac spirit which darkened his soul and transformed his heart into a rock. You are the hero of this game and you need to save your damsel-in-distress. Lord Herald prepares to slay her and summon her soul, enchanting her dead body to praise the evil forces in order to strengthen himself and rule the world! Hurry up! Kill Herald and save your princess!</h5>
+                  <button className="btn btn-danger" onClick={this.handleStart}>START GAME</button>
+                  <h2 className="h2title">Instructions</h2>
+                  <h5 className="h5title">Using weapons reduces the number of times you need to hit a mob in order to kill him. Potions give you health. Killing mobs adds honor points and gold to your purse. Honor Points turn you a kingdom's legend! Use the arrow keys to fight your way till Lord Herald, the Boss in Dungeon 4! <br />Good Luck fellow stranger!</h5>
+              </div>
+              <h3 className="h3title">Thank you very much, <a href="http://jessefreeman.com/" target="_blank" rel="noopener noreferrer">Jesse Freeman</a>, for the graphics!</h3>
+              <h3 className="h3title">I'm <a href="http://evedes.me" target="_blank" rel="noopener noreferrer">EVEDES.ME</a> and I'm a Free Stack Dev Self-taugh in <a href="http://www.freecodecamp.org" target="_blank" rel="noopener noreferrer">freeCodeCamp</a></h3>
+
+      </div>
+      )
+    }
+    // GAME OVER
+    else{
+      return(
+      <div className="maincontainer row">
+               <div className="menumap">
+                  <h2 className="h2headertitle">ROGUELIKE DUNGEON CRAWLER GAME</h2>
+                  <h2 className="h2title">GAME OVER!!!</h2>
+                  <button className="btn btn-danger" onClick={this.handleStart}>RESTART GAME</button>
+                  <button className="btn btn-danger" onClick={this.handleMainMenu}>MAIN MENU</button>
+              </div>
+      </div>
+      )
+    }
+    
+    
+  } // end of render function 
+} // end of Class
 
 export default GameMap;
